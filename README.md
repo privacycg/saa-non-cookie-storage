@@ -31,3 +31,24 @@ A developer embeds chat.com on two of their sites site-a.com and site-b.com. cha
 ### [Example 2](https://groups.google.com/a/chromium.org/g/blink-dev/c/24hK6DKJnqY/m/fybXzBdwCAAJ)
 
 This SaaS product has a heavy reliance on shared workers and this would break customer use cases.  Shared workers are used to coordinate Web RTC signaling and websocket management which is critical for the app. For example, the shared worker is used to support seamless multi-tab use cases and acts as a gatekeeper for managing audio and notifications if there are multiple instances of this app open (i.e., only a single tab can host an audio).
+
+## Proposed Solution
+
+We propose an extension of the [Storage Access API](https://webkit.org/blog/8124/introducing-storage-access-api/) (backwards compatible), and imagine the API mechanics to be roughly like this (JS running in an embedded iframe):
+
+```javascript
+// Request a new storage handle via rSA (this should prompt the user)
+let handle = await document.requestStorageAccess({all: true});
+// Write some cross-site localstorage
+handle.localStorage.setItem("userid", "1234");
+// Open or create an indexedDB that is shared with the 1P context
+let messageDB = handle.defaultBucket.indexedDB.open("messages");
+```
+
+The same flow would be used by iframes to get a storage handle when their top-level ancestor successfully called [rSAFor](https://github.com/privacycg/requestStorageAccessFor), just that in this case the storage-access permission was already granted and thus the rSA call would not require a user gesture or show a prompt, allowing for “hidden” iframes accessing storage.
+
+Possible API Shape: If the argument `{all: true}` is provided all available storage/communication mechanisms will be prepared and attached to the handle. Otherwise, a site could request just specific mechanisms like local storage and indexed db for example with `{localStorage: true, indexedDB: true}`. This flexibility is provided to ensure developers can avoid any performance impact from loading unused storage/communication mechanisms.
+
+### Prompting the User
+
+Browsers currently shipping the Storage Access API apply varying methods of when or how to ask the user for permission to grant 3p cookie access to a site. Given that this proposal involves extending the existing Storage Access API, while maintaining largely the same implications (from a privacy/security perspective) to the user, a consistent prompt for cookie and non-cookie access is preferred.
