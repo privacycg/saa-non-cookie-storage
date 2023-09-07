@@ -52,3 +52,23 @@ Possible API Shape: If the argument `{all: true}` is provided all available stor
 ### Prompting the User
 
 Browsers currently shipping the Storage Access API apply varying methods of when or how to ask the user for permission to grant 3p cookie access to a site. Given that this proposal involves extending the existing Storage Access API, while maintaining largely the same implications (from a privacy/security perspective) to the user, a consistent prompt for cookie and non-cookie access is preferred.
+
+## Alternatives & Questions
+
+### Storage Buckets
+
+This is very similar to [Storage Buckets](https://github.com/WICG/storage-buckets/blob/main/explainer.md), and it was initially suggested that we could simply return a new bucket from an rSA call. However, in discussion with the Storage Buckets team it became clear that there are conflicting requirements (buckets are primarily for managing eviction). Further, buckets don’t cover DOM Storage or communication APIs, both of which we feel should be available to achieve our goals for this effort.
+
+### Default StorageKey
+
+We could change third-party context’s StorageKey to be the first-party one so that reads/writes went to that bucket in existing APIs, but this would cause issues for any in-flight reads/writes and significant retooling of infrastructure to make it possible.
+
+### Service Workers
+
+Service workers have [cache-based history sniffing attacks](https://www.ndss-symposium.org/wp-content/uploads/ndss2021_1C-2_23104_paper.pdf). Extending cross-site unpartitioned storage access to service workers would open up increased vulnerabilities and be somewhat confusing due to the way FetchEvent and other background events are not tied to an endpoint, thus first-party Service Workers will not be exposed in third-party contexts after an rSA call.
+
+## Privacy & Security Considerations
+
+In extending an existing access-granting API, care must be taken not to open additional security issues or abuse vectors relative to comprehensive cross-site cookie blocking and storage partitioning. Except for Service Workers (which will not be supported in this extension) we believe non-cookie storage and communication APIs don't enable any capability that could not be built with cookie access.
+
+Without this extension, we would in effect be pushing developers to migrate storage to cookies. This would have negative security implications as they are exposed in HTTP Requests and partitioned per-site instead of per-origin. Although the storage capacity is greater via non-cookie storage, not much information would need to be passed to simply achieve linking a first and third-party context.
