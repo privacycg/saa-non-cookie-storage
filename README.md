@@ -3,3 +3,13 @@
 ## Introduction
 
 To prevent certain types of cross-site tracking, storage and communication APIs in third party contexts are being partitioned or deprecated (read more about [storage partitioning](https://developer.chrome.com/en/docs/privacy-sandbox/storage-partitioning/) and [cookie deprecation efforts](https://developer.chrome.com/docs/privacy-sandbox/third-party-cookie-phase-out/) in Chrome and [Firefox](https://developer.mozilla.org/en-US/docs/Web/Privacy/State_Partitioning)). This breaks use cases that depend on cookie and non-cookie storage and communication surfaces in cross-site contexts. Several solutions (like Chrome’s [Privacy Sandbox](https://developer.chrome.com/docs/privacy-sandbox/overview/)) have been proposed to address use cases that rely on third-party cookies, including the [Storage Access API](https://github.com/privacycg/storage-access) (shipping with multi-browser support), which facilitates limited access to third-party cookies in specific scenarios to mitigate user-facing breakage. This explainer proposes to extend that same mechanism to non-cookie storage/communication mediums.
+
+## Motivation
+
+There has been increasing [developer](https://github.com/GoogleChromeLabs/privacy-sandbox-dev-support/issues/124) and [implementer](https://github.com/privacycg/storage-access/issues/102) interest in first-party [DOM Storage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API) and [Quota Managed Storage](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) being available in third-party contexts the same way that [Cookies already can be](https://github.com/privacycg/storage-access). In the absence of such a solution, we would in effect be pushing developers to migrate to Cookies from other storage mechanisms. There are significant tradeoffs between Cookie and non-Cookie storage (size, flexibility, server exposure, network request size, etc.) that could cause a detriment in user experience from a privacy, security and performance perspective. To prevent sub-optimal use of cookies and to preserve context, this explainer proposes a solution for developers to regain 3p access to unpartitioned storage in select instances to avoid user-facing breakage in browsers shipping storage partitioning.
+
+## Goals
+
+1. Provide a way for developers to ensure continuity of user experience with unpartitioned third-party storage, without enabling pervasive tracking of users.
+2. Maintain the privacy and security properties of the Storage Access API (largely lauded by the web community), while providing more flexibility for developers. 
+3. Extend the Storage Access API, ideally with cross-browser interest.
