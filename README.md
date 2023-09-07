@@ -21,3 +21,13 @@ There has been increasing [developer](https://github.com/GoogleChromeLabs/privac
     2. Some anti-fraud use cases may need to be handled by a separate API, given the constraints of the SAA implementation
 2. Provide a passive mechanism to access first-party storage in third-party contexts.
 3. Push developers to migrate to  Cookie from Non-Cookie storage mechanisms, and vice versa, especially when there are privacy/security/performance reasons to support one implementation over another in specific scenarios.
+
+## Use Cases
+
+### [Example 1](https://github.com/GoogleChromeLabs/privacy-sandbox-dev-support/issues/124)
+
+A developer embeds chat.com on two of their sites site-a.com and site-b.com. chat.com uses Shared Workers to maintain a user session.
+
+### [Example 2](https://groups.google.com/a/chromium.org/g/blink-dev/c/24hK6DKJnqY/m/fybXzBdwCAAJ)
+
+This SaaS product has a heavy reliance on shared workers and this would break customer use cases.  Shared workers are used to coordinate Web RTC signaling and websocket management which is critical for the app. For example, the shared worker is used to support seamless multi-tab use cases and acts as a gatekeeper for managing audio and notifications if there are multiple instances of this app open (i.e., only a single tab can host an audio).
