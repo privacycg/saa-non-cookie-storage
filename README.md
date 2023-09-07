@@ -13,3 +13,11 @@ There has been increasing [developer](https://github.com/GoogleChromeLabs/privac
 1. Provide a way for developers to ensure continuity of user experience with unpartitioned third-party storage, without enabling pervasive tracking of users.
 2. Maintain the privacy and security properties of the Storage Access API (largely lauded by the web community), while providing more flexibility for developers. 
 3. Extend the Storage Access API, ideally with cross-browser interest.
+
+## Non-Goals
+
+1. Address all breakage resulting from storage partitioning: 
+  1. Use cases intended for pervasive tracking of users is not in scope
+  2. Some anti-fraud use cases may need to be handled by a separate API, given the constraints of the SAA implementation
+2. Provide a passive mechanism to access first-party storage in third-party contexts.
+3. Push developers to migrate to  Cookie from Non-Cookie storage mechanisms, and vice versa, especially when there are privacy/security/performance reasons to support one implementation over another in specific scenarios.
