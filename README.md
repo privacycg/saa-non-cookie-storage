@@ -17,7 +17,7 @@ There has been increasing [developer](https://github.com/GoogleChromeLabs/privac
 ## Non-Goals
 
 1. Address all breakage resulting from storage partitioning: 
-  1. Use cases intended for pervasive tracking of users is not in scope
-  2. Some anti-fraud use cases may need to be handled by a separate API, given the constraints of the SAA implementation
+    1. Use cases intended for pervasive tracking of users is not in scope
+    2. Some anti-fraud use cases may need to be handled by a separate API, given the constraints of the SAA implementation
 2. Provide a passive mechanism to access first-party storage in third-party contexts.
 3. Push developers to migrate to  Cookie from Non-Cookie storage mechanisms, and vice versa, especially when there are privacy/security/performance reasons to support one implementation over another in specific scenarios.
