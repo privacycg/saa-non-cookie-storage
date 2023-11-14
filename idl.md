@@ -28,11 +28,6 @@ interface StorageAccessHandle {
   Promise<StorageEstimate> estimate();
   DOMString createObjectURL((Blob or MediaSource) obj);
   undefined revokeObjectURL(DOMString url);
+  BroadcastChannel BroadcastChannel(DOMString name);
+  SharedWorker SharedWorker(ScriptURLString scriptURL, optional (DOMString or WorkerOptions) options = {}); 
 };
-
-[Exposed=StorageAccessHandle]
-partial interface BroadcastChannel {};
-
-[Exposed=StorageAccessHandle]
-partial interface SharedWorker {};
-```
