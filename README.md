@@ -28,11 +28,11 @@ There has been increasing [developer](https://github.com/GoogleChromeLabs/privac
 
 ### [Example 1](https://github.com/GoogleChromeLabs/privacy-sandbox-dev-support/issues/124)
 
-A developer embeds chat.com on two of their sites site-a.com and site-b.com. chat.com uses Shared Workers to maintain a user session.
+A developer embeds chat.com on two of their sites site-a.com and site-b.com. chat.com uses IndexedDB to maintain a user session.
 
 ### [Example 2](https://groups.google.com/a/chromium.org/g/blink-dev/c/24hK6DKJnqY/m/fybXzBdwCAAJ)
 
-This SaaS product has a heavy reliance on shared workers and this would break customer use cases.  Shared workers are used to coordinate Web RTC signaling and websocket management which is critical for the app. For example, the shared worker is used to support seamless multi-tab use cases and acts as a gatekeeper for managing audio and notifications if there are multiple instances of this app open (i.e., only a single tab can host an audio).
+This SaaS product has a heavy reliance on Broadcast Channel and this would break customer use cases. Broadcast Channel is used to coordinate Web RTC signaling and websocket management which is critical for the app. For example, the channel is used to support seamless multi-tab use cases and acts as a gatekeeper for managing audio and notifications if there are multiple instances of this app open (i.e., only a single tab can host an audio).
 
 ## Proposed Solution
 
@@ -68,6 +68,10 @@ We could change third-party context’s StorageKey to be the first-party one so 
 ### Service Workers
 
 Service workers have [cache-based history sniffing attacks](https://www.ndss-symposium.org/wp-content/uploads/ndss2021_1C-2_23104_paper.pdf). Extending cross-site unpartitioned storage access to service workers would open up increased vulnerabilities and be somewhat confusing due to the way FetchEvent and other background events are not tied to an endpoint, thus first-party Service Workers will not be exposed in third-party contexts after an rSA call.
+
+### Shared/Dedicated Workers
+
+Shared and Dedicated Workers have access to SameSite=Strict cookies. This API does not otherwise grant access to those cookies in a third-party context, so it should not allow access to first-party worker pools.
 
 ## Privacy & Security Considerations
 
