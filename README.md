@@ -75,6 +75,6 @@ Shared and Dedicated Workers have access to SameSite=Strict cookies. This API do
 
 ## Privacy & Security Considerations
 
-In extending an existing access-granting API, care must be taken not to open additional security issues or abuse vectors relative to comprehensive cross-site cookie blocking and storage partitioning. Except for Workers (which will not be supported in this extension) we believe non-cookie storage and communication APIs don't enable any capability that could not be built with cookie access.
+In extending an existing access-granting API, care must be taken not to open additional security issues or abuse vectors relative to comprehensive cross-site cookie blocking and storage partitioning. Except for Service Workers (which will not be supported in this extension) we believe non-cookie storage and communication APIs don't enable any capability that could not be built with cookie access.
 
 Without this extension, we would in effect be pushing developers to migrate storage to cookies. This would have negative security implications as they are exposed in HTTP Requests and partitioned per-site instead of per-origin. Although the storage capacity is greater via non-cookie storage, not much information would need to be passed to simply achieve linking a first and third-party context.
