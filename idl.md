@@ -15,7 +15,6 @@ dictionary StorageAccessTypes {
   boolean createObjectURL = false;
   boolean revokeObjectURL = false;
   boolean BroadcastChannel = false;
-  boolean SharedWorker = false;
 };
 
 interface StorageAccessHandle {
@@ -29,5 +28,4 @@ interface StorageAccessHandle {
   DOMString createObjectURL((Blob or MediaSource) obj);
   undefined revokeObjectURL(DOMString url);
   BroadcastChannel BroadcastChannel(DOMString name);
-  SharedWorker SharedWorker(ScriptURLString scriptURL, optional (DOMString or WorkerOptions) options = {}); 
 };
