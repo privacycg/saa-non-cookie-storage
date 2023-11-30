@@ -30,7 +30,7 @@ There has been increasing [developer](https://github.com/GoogleChromeLabs/privac
 
 A developer embeds chat.com on two of their sites site-a.com and site-b.com. chat.com uses Shared Workers to maintain a user session.
 
-### [Example 2](https://groups.google.com/a/chromium.org/g/blink-dev/c/24hK6DKJnqY/m/fybXzBdwCAAJ)
+### [Example 2](https://github.com/wanderview/quota-storage-partitioning/issues/9)
 
 This SaaS product has a heavy reliance on Broadcast Channel and this would break customer use cases. Broadcast Channel is used to coordinate Web RTC signaling and websocket management which is critical for the app. For example, the channel is used to support seamless multi-tab use cases and acts as a gatekeeper for managing audio and notifications if there are multiple instances of this app open (i.e., only a single tab can host an audio).
 
