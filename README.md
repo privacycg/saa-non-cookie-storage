@@ -28,7 +28,7 @@ There has been increasing [developer](https://github.com/GoogleChromeLabs/privac
 
 ### [Example 1](https://github.com/GoogleChromeLabs/privacy-sandbox-dev-support/issues/124)
 
-A developer embeds chat.com on two of their sites site-a.com and site-b.com. chat.com uses IndexedDB to maintain a user session.
+A developer embeds chat.com on two of their sites site-a.com and site-b.com. chat.com uses Shared Workers to maintain a user session.
 
 ### [Example 2](https://groups.google.com/a/chromium.org/g/blink-dev/c/24hK6DKJnqY/m/fybXzBdwCAAJ)
 
