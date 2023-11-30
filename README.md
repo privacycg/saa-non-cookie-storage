@@ -69,12 +69,12 @@ We could change third-party context’s StorageKey to be the first-party one so 
 
 Service workers have [cache-based history sniffing attacks](https://www.ndss-symposium.org/wp-content/uploads/ndss2021_1C-2_23104_paper.pdf). Extending cross-site unpartitioned storage access to service workers would open up increased vulnerabilities and be somewhat confusing due to the way FetchEvent and other background events are not tied to an endpoint, thus first-party Service Workers will not be exposed in third-party contexts after an rSA call.
 
-### Shared/Dedicated Workers
-
-Shared and Dedicated Workers have access to SameSite=Strict cookies. This API does not otherwise grant access to those cookies in a third-party context, so it should not allow access to first-party worker pools.
-
 ## Privacy & Security Considerations
 
 In extending an existing access-granting API, care must be taken not to open additional security issues or abuse vectors relative to comprehensive cross-site cookie blocking and storage partitioning. Except for Service Workers (which will not be supported in this extension) we believe non-cookie storage and communication APIs don't enable any capability that could not be built with cookie access.
 
 Without this extension, we would in effect be pushing developers to migrate storage to cookies. This would have negative security implications as they are exposed in HTTP Requests and partitioned per-site instead of per-origin. Although the storage capacity is greater via non-cookie storage, not much information would need to be passed to simply achieve linking a first and third-party context.
+
+### Shared/Dedicated Workers
+
+Shared and Dedicated Workers have access to SameSite=Strict cookies. This API does not otherwise grant access to those cookies in a third-party context, so it should not allow access to first-party worker pools. An extension to support Shared and Dedicated Workers without SameSite=Strict cookies should be considered for future inclusion.
