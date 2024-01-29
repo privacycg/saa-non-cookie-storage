@@ -1,14 +1,14 @@
 # Explainer: Extending Storage Access API (SAA) to omit unpartitioned cookies
 
-* [Discussion](https://github.com/arichiv/saa-non-cookie-storage/issues)
+* [Discussion](https://github.com/privacycg/saa-non-cookie-storage/issues)
 
 # Introduction
 
-This extension to “[Explainer: Extending Storage Access API (SAA) to non-cookie storage](https://arichiv.github.io/saa-non-cookie-storage/)” proposes adding a mechanism to not force unpartitioned cookie access when all that the developer needs is some other unpartitioned storage access via SAA. This is one of two proposed extensions going out together.
+This extension to “[Explainer: Extending Storage Access API (SAA) to non-cookie storage](https://privacycg.github.io/saa-non-cookie-storage/)” proposes adding a mechanism to not force unpartitioned cookie access when all that the developer needs is some other unpartitioned storage access via SAA. This is one of two proposed extensions going out together.
 
 # Motivation
 
-The current [Storage Access API](https://github.com/privacycg/storage-access) requires that unpartitioned cookie access is granted if any unpartitioned storage access is needed. This forces unpartitioned cookies to be included in network requests which may not need them, having impacts on network performance and security. Before the [extension](https://arichiv.github.io/saa-non-cookie-storage/) ships, we have a chance to fix this behavior without a compatibility break.
+The current [Storage Access API](https://github.com/privacycg/storage-access) requires that unpartitioned cookie access is granted if any unpartitioned storage access is needed. This forces unpartitioned cookies to be included in network requests which may not need them, having impacts on network performance and security. Before the [extension](https://privacycg.github.io/saa-non-cookie-storage/) ships, we have a chance to fix this behavior without a compatibility break.
 
 # Goals
 
@@ -24,7 +24,7 @@ The current [Storage Access API](https://github.com/privacycg/storage-access) re
 
 # Proposed Solution
 
-We propose an extension of the [Storage Access API non-cookie extension](https://arichiv.github.io/saa-non-cookie-storage/) to provide a `cookies` argument which defines whether unpartitioned cookies will or won’t be included in future fetch requests. The API shape isn’t final, but for the sake of explanation and example it is treated as well defined below.
+We propose an extension of the [Storage Access API non-cookie extension](https://privacycg.github.io/saa-non-cookie-storage/) to provide a `cookies` argument which defines whether unpartitioned cookies will or won’t be included in future fetch requests. The API shape isn’t final, but for the sake of explanation and example it is treated as well defined below.
 
 ```javascript
 // The following code would be run in a cross-site iframe for example.com.
