@@ -1,10 +1,10 @@
 # Explainer: Extending Storage Access API (SAA) to Shared Workers
 
-* [Discussion](https://github.com/arichiv/saa-non-cookie-storage/issues)
+* [Discussion](https://github.com/privacycg/saa-non-cookie-storage/issues)
 
 # Introduction
 
-This extension to “[Explainer: Extending Storage Access API (SAA) to non-cookie storage](https://arichiv.github.io/saa-non-cookie-storage/)” proposes adding Shared Workers to the SAA handle. This is one of two proposed extensions going out together.
+This extension to “[Explainer: Extending Storage Access API (SAA) to non-cookie storage](https://privacycg.github.io/saa-non-cookie-storage/)” proposes adding Shared Workers to the SAA handle. This is one of two proposed extensions going out together.
 
 # Motivation
 
@@ -50,7 +50,7 @@ const sharedWorker2 = new SharedWorker("shared_worker.js", {sameSiteCookies: 'al
 const sharedWorker3 = new SharedWorker("shared_worker.js", {sameSiteCookies: 'none'});
 ```
 
-We further propose an extension of the [Storage Access API non-cookie extension](https://arichiv.github.io/saa-non-cookie-storage/) to provide a way to create Shared Workers that have access to first-party storage.
+We further propose an extension of the [Storage Access API non-cookie extension](https://privacycg.github.io/saa-non-cookie-storage/) to provide a way to create Shared Workers that have access to first-party storage.
 
 ```javascript
 // The following code would be run in a cross-site iframe for example.com.
