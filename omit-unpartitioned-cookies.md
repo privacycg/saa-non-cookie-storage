@@ -4,7 +4,7 @@
 
 # Introduction
 
-This extension to “[Explainer: Extending Storage Access API (SAA) to non-cookie storage](https://privacycg.github.io/saa-non-cookie-storage/)” proposes adding a mechanism to not force unpartitioned cookie access when all that the developer needs is some other unpartitioned storage access via SAA. This is one of two proposed extensions going out together.
+This extension to “[Explainer: Extending Storage Access API (SAA) to non-cookie storage](https://github.com/privacycg/saa-non-cookie-storage/blob/main/README.md)” proposes adding a mechanism to not force unpartitioned cookie access when all that the developer needs is some other unpartitioned storage access via SAA. This is one of two proposed extensions going out together.
 
 # Motivation
 
