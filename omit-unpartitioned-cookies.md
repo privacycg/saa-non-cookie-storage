@@ -24,7 +24,7 @@ The current [Storage Access API](https://github.com/privacycg/storage-access) re
 
 # Proposed Solution
 
-We propose an extension of the [Storage Access API non-cookie extension](https://privacycg.github.io/saa-non-cookie-storage/) to provide a `cookies` argument which defines whether unpartitioned cookies will or won’t be included in future fetch requests. The API shape isn’t final, but for the sake of explanation and example it is treated as well defined below.
+We propose an extension of the [Storage Access API non-cookie extension](https://github.com/privacycg/saa-non-cookie-storage/blob/main/README.md) to provide a `cookies` argument which defines whether unpartitioned cookies will or won’t be included in future fetch requests. The API shape isn’t final, but for the sake of explanation and example it is treated as well defined below.
 
 ```javascript
 // The following code would be run in a cross-site iframe for example.com.
