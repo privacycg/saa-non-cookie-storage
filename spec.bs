@@ -1,1 +1,16 @@
-
+<pre class="metadata">
+Title: Extending Storage Access API (SAA) to non-cookie storage
+Shortname: saa-non-cookie-storage
+Repository: privacycg/saa-non-cookie-storage
+URL: https://privacycg.github.io/saa-non-cookie-storage/
+Editor: Ari Chivukula, w3cid 132484, Google https://google.org, arichiv@google.com
+Editor: Johann Hofmann, w3cid 120436, Google https://google.com, johannhof@google.com
+Abstract: This extends the Storage Access API to enable content in cross-site iframes to request access to first-party data beyond cookies.
+Status Text: This specification is intended to be merged into the HTML Living Standard. It is neither a WHATWG Living Standard nor is it on the standards track at W3C.
+Text Macro: LICENSE <a href=https://creativecommons.org/licenses/by/4.0/>Creative Commons Attribution 4.0 International License</a>
+Group: privacycg
+Status: CG-DRAFT
+Level: None
+Markup Shorthands: markdown yes, css no
+Complain About: accidental-2119 true
+</pre>
