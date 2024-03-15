@@ -20,6 +20,12 @@ dictionary StorageAccessTypes {
   boolean SharedWorker = false;
 };
 
+enum SameSiteCookiesType { "all", "none" };
+
+dictionary SharedWorkerOptions : WorkerOptions {
+  SameSiteCookiesType sameSiteCookies;
+}
+
 interface StorageAccessHandle {
   readonly attribute Storage sessionStorage;
   readonly attribute Storage localStorage;
@@ -31,5 +37,10 @@ interface StorageAccessHandle {
   DOMString createObjectURL((Blob or MediaSource) obj);
   undefined revokeObjectURL(DOMString url);
   BroadcastChannel BroadcastChannel(DOMString name);
-  SharedWorker SharedWorker(USVString scriptURL, optional (DOMString or WorkerOptions) options = {});
+  SharedWorker SharedWorker(USVString scriptURL, optional (DOMString or SharedWorkerOptions) options = {});
 };
+
+interface SharedWorker : EventTarget {
+    constructor(ScriptURLString scriptURL, optional (DOMString or SharedWorkerOptions) options = {});
+};
+```
