@@ -27,5 +27,3 @@ jobs:
     - run: make
     - uses: actions/upload-pages-artifact@v3
     - uses: actions/deploy-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
