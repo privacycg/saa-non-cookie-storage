@@ -98,7 +98,7 @@ partial interface Document {
 
 When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>hasUnpartitionedCookieAccess()</code></dfn> method must run these steps:
 
-1. Return the result from a call to {{Document/hasStorageAccess()}}.
+1. Return the invocation of {{Document/hasStorageAccess()}}.
 
 Note:
 Now that {{Document/requestStorageAccess(types)}} <span class=allow-2119>can</span> be used to request [=unpartitioned data=] with or without specifically requesting cookies, it <span class=allow-2119>must</span> be made clear that {{Document/hasStorageAccess()}} only returns true if [=first-party-site context=] cookies are accessable to the current document.
@@ -110,9 +110,13 @@ When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>re
 1. Let |p| be [=a new promise=].
 1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/cookies}} is `false`, then [=/reject=] |p| with an "{{InvalidStateError}}" {{DOMException}} and return |p|.
 1. Let |requestUnpartitionedCookieAccess| be `true` if |types|.{{StorageAccessTypes/all}} is `true` or |types|.{{StorageAccessTypes/cookies}} is `true`, and `false` otherwise.
-1. [=React=] |p| to the invocation of {{Document/requestStorageAccess()}} given |requestUnpartitionedCookieAccess| and invoke the following steps if the promise is fulfilled (if the promise is rejected then apply that same rejection to |p|):
-    1. Let |handle| be a new object of type {{StorageAccessHandle}} with |types|.
-    1. [=/Resolve=] |p| with |handle|.
+1. Run the following steps [=in parallel=]:
+    1. Let |accessPromise| be the result of invoking {{Document/requestStorageAccess()}} with |requestUnpartitionedCookieAccess|.
+    1. If |accessPromise| [=/rejects=] with `reason` |r|:
+        1. [=/Reject=] |p| with |r|.
+    1. Else:
+        1. Let |handle| be a new object of type {{StorageAccessHandle}} with |types|.
+        1. [=/Resolve=] |p| with |handle|.
 1. Return |p|.
 
 
