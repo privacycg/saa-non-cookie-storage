@@ -10,5 +10,5 @@ clean:
 
 _site/index.html: spec.bs Makefile
 	mkdir -p _site
-        bikeshed update
+	bikeshed update
 	bikeshed --die-on=warning spec
