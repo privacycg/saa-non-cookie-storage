@@ -10,4 +10,4 @@ clean:
 
 build/index.html: spec.bs Makefile
 	mkdir -p build
-	bikeshed --die-on=warning spec $< $@
+	bikeshed --die-on=warning spec
