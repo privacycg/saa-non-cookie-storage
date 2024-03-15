@@ -65,7 +65,7 @@ This specification defines a method to request access to [=unpartitioned data=] 
 Alex visits `https://social.example/`. The page sets a some local storage. This local storage has been set in a [=first-party-site context=].
 
 ```javascript
-document.localStorage.setItem("userid", "1234");
+window.localStorage.setItem("userid", "1234");
 ```
 
 Later on, Alex visits `https://video.example/`, which has an <{iframe}> on it which loads `https://social.example/heart-button`. In this case, the `social.example` {{Document}} |doc| is in a [=third party context=], and the local storage set previously might or might not be visible depending on User Agent storage access policies.
