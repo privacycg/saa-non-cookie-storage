@@ -25,7 +25,7 @@ jobs:
     - run: pip install bikeshed
     - run: bikeshed update
     - run: make
-    - uses: actions/upload-pages-artifact@v1
+    - uses: actions/upload-pages-artifact@v3
       with:
         path: "./build"
     - uses: actions/deploy-pages@v4
