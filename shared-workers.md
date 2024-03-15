@@ -50,7 +50,7 @@ const sharedWorker2 = new SharedWorker("shared_worker.js", {sameSiteCookies: 'al
 const sharedWorker3 = new SharedWorker("shared_worker.js", {sameSiteCookies: 'none'});
 ```
 
-We further propose an extension of the [Storage Access API non-cookie extension](https://privacycg.github.io/saa-non-cookie-storage/) to provide a way to create Shared Workers that have access to first-party storage.
+We further propose an extension of the [Storage Access API non-cookie extension](https://github.com/privacycg/saa-non-cookie-storage/blob/main/README.md) to provide a way to create Shared Workers that have access to first-party storage.
 
 ```javascript
 // The following code would be run in a cross-site iframe for example.com.
