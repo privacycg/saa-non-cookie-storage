@@ -8,7 +8,7 @@ This extension to “[Explainer: Extending Storage Access API (SAA) to non-cooki
 
 # Motivation
 
-The current [Storage Access API](https://github.com/privacycg/storage-access) requires that unpartitioned cookie access is granted if any unpartitioned storage access is needed. This forces unpartitioned cookies to be included in network requests which may not need them, having impacts on network performance and security. Before the [extension](https://privacycg.github.io/saa-non-cookie-storage/) ships, we have a chance to fix this behavior without a compatibility break.
+The current [Storage Access API](https://github.com/privacycg/storage-access) requires that unpartitioned cookie access is granted if any unpartitioned storage access is needed. This forces unpartitioned cookies to be included in network requests which may not need them, having impacts on network performance and security. Before the [extension](https://github.com/privacycg/saa-non-cookie-storage/blob/main/README.md) ships, we have a chance to fix this behavior without a compatibility break.
 
 # Goals
 
