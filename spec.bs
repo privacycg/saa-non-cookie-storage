@@ -14,3 +14,85 @@ Level: None
 Markup Shorthands: markdown yes, css no
 Complain About: accidental-2119 true
 </pre>
+
+<pre class=biblio>
+{
+    "STORAGE-ACCESS": {
+        "authors": [
+            "Benjamin VanderSloot",
+            "Johann Hofmann",
+            "Anne van Kesteren"
+        ],
+        "href": "https://privacycg.github.io/storage-access/",
+        "publisher": "W3C",
+        "title": "The Storage Access API"
+    }
+}
+</pre>
+
+<section class="non-normative">
+
+<h2 id="intro">Introduction</h2>
+
+<em>This section is non-normative.</em>
+
+The Storage Access API (SAA) enables content inside <{iframe}>s to request and be granted access to their client-side storage, so that embedded content which relies on having access to client-side storage can work in such User Agents. [[STORAGE-ACCESS]]
+
+This specification extends the client-side storage available beyond cookies.
+
+</section>
+
+<h2 id="extending-saa-to-non-cookie-storage">Extending SAA to non-cookie storage</h2>
+
+TBD
+
+<h3 id="the-document-object">Changes to {{Document}}</h3>
+
+TBD
+
+<h3 id="storage">Changes to various client-side storage mechanisms</h3>
+
+TBD
+
+<h4 id="cookies">Cookies</h4>
+
+TBD
+
+<h4 id="dom-storage">DOM Storage</h4>
+
+TBD
+
+<h4 id="indexed-db">IndexedDB</h4>
+
+TBD
+
+<h4 id="web-locks">Web Locks</h4>
+
+TBD
+
+<h4 id="cache-storage">Cache Storage</h4>
+
+TBD
+
+<h4 id="storage-manager">Storage Manager</h4>
+
+TBD
+
+<h4 id="file-api">File API</h4>
+
+TBD
+
+<h4 id="broadcast-channel">Broadcast Channel</h4>
+
+TBD
+
+<h4 id="shared-worker">Shared Worker</h4>
+
+TBD
+
+<h2 id="privacy">Security & Privacy considerations</h2>
+
+In extending an existing access-granting API, care must be taken not to open additional security issues or abuse vectors relative to comprehensive cross-site cookie blocking and storage partitioning.
+Except for Service Workers (which will not be supported in this extension) non-cookie storage and communication APIs don't enable any capability that could not be built with cookie access alone.
+
+For more detailed discussions see [[STORAGE-ACCESS#privacy]] and [[STORAGE-ACCESS#security]].
