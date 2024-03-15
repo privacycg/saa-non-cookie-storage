@@ -108,7 +108,9 @@ For now {{Document/hasStorageAccess()}} is not considered deprecated, but that <
 When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>requestStorageAccess(types)</code></dfn> method must run these steps:
 
 1. Let |p| be [=a new promise=].
-1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/cookies}} is `false`, then [=/reject=] |p| with an "{{InvalidStateError}}" {{DOMException}} and return |p|.
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/cookies}} is `false`:
+    1. [=/Reject=] |p| with an "{{InvalidStateError}}" {{DOMException}}.
+    1. Return |p|.
 1. Let |requestUnpartitionedCookieAccess| be `true` if |types|.{{StorageAccessTypes/all}} is `true` or |types|.{{StorageAccessTypes/cookies}} is `true`, and `false` otherwise.
 1. Run the following steps [=in parallel=]:
     1. Let |accessPromise| be the result of invoking {{Document/requestStorageAccess()}} with |requestUnpartitionedCookieAccess|.
