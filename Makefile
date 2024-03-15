@@ -3,12 +3,12 @@
 
 all: publish
 
-publish: _site/index.html
+publish: build/index.html
 
 clean:
-	rm -rf _site
+	rm -rf build
 
-_site/index.html: spec.bs Makefile
-	mkdir -p _site
+build/index.html: spec.bs Makefile
+	mkdir -p build
 	bikeshed update
 	bikeshed --die-on=warning spec
