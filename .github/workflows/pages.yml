@@ -26,6 +26,4 @@ jobs:
     - run: bikeshed update
     - run: make
     - uses: actions/upload-pages-artifact@v3
-      with:
-        path: 'build/'
     - uses: actions/deploy-pages@v4
