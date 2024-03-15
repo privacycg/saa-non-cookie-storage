@@ -4,7 +4,7 @@
 
 # Introduction
 
-This extension to “[Explainer: Extending Storage Access API (SAA) to non-cookie storage](https://privacycg.github.io/saa-non-cookie-storage/)” proposes adding Shared Workers to the SAA handle. This is one of two proposed extensions going out together.
+This extension to “[Explainer: Extending Storage Access API (SAA) to non-cookie storage](https://github.com/privacycg/saa-non-cookie-storage/blob/main/README.md)” proposes adding Shared Workers to the SAA handle. This is one of two proposed extensions going out together.
 
 # Motivation
 
