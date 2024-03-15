@@ -98,7 +98,12 @@ partial interface Document {
 
 When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>hasUnpartitionedCookieAccess()</code></dfn> method must run these steps:
 
-1. Invoke {{Document/hasStorageAccess()}}
+1. Return the result from a call to {{Document/hasStorageAccess()}}.
+
+Note:
+Now that {{Document/requestStorageAccess(types)}} <span class=allow-2119>can</span> be used to request [=unpartitioned data=] with or without specifically requesting cookies, it <span class=allow-2119>must</span> be made clear that {{Document/hasStorageAccess()}} only returns true if [=first-party-site context=] cookies are accessable to the current document.
+As a function name, {{Document/hasUnpartitionedCookieAccess()}} more clearly communicates this.
+For now {{Document/hasStorageAccess()}} is not considered deprecated, but that <span class=allow-2119>may</span> be worth taking up in future.
 
 When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>requestStorageAccess(types)</code></dfn> method must run these steps:
 
@@ -110,11 +115,6 @@ When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>re
     1. [=/Resolve=] |p| with |handle|.
 1. Return |p|.
 
-<h3 id="has-storage-access-changes">Changes to {{Document/hasStorageAccess()}}</h3>
-
-Now that {{Document/requestStorageAccess(types)}} can be used to request [=unpartitioned data=] with or without specifically requesting cookies, it must be made clear that {{Document/hasStorageAccess()}} only returns true if [=first-party-site context=] cookies are accessable to the current document.
-As a function name, {{Document/hasUnpartitionedCookieAccess()}} more clearly communicates this.
-For now {{Document/hasStorageAccess()}} is not considered deprecated, but that may be worth taking up in future.
 
 <h3 id="request-storage-access-changes">Changes to {{Document/requestStorageAccess()}}</h3>
 
