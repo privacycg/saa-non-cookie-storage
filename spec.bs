@@ -14,3 +14,29 @@ Level: None
 Markup Shorthands: markdown yes, css no
 Complain About: accidental-2119 true
 </pre>
+
+<pre class=biblio>
+{
+    "STORAGE-ACCESS": {
+        "authors": [
+            "Benjamin VanderSloot",
+            "Johann Hofmann",
+            "Anne van Kesteren"
+        ],
+        "href": "https://privacycg.github.io/storage-access/",
+        "publisher": "W3C",
+        "title": "The Storage Access API"
+    }
+}
+</pre>
+
+<section class="non-normative">
+<h2 id="intro">Introduction</h2>
+
+<em>This section is non-normative.</em>
+
+The Storage Access API enables content inside <{iframe}>s to request and be granted access to their client-side storage, so that embedded content which relies on having access to client-side storage can work in such User Agents.[[STORAGE-ACCESS]]
+
+This specification extends the client-side storage available beyond cookies.
+
+</section>
