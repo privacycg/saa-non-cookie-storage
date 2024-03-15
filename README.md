@@ -1,8 +1,8 @@
 # Explainer: Extending Storage Access API (SAA) to non-cookie storage
 
 * [Discussion](https://github.com/privacycg/saa-non-cookie-storage/issues)
-* [Additional Extension: Omit Unpartitioned Cookies](https://github.com/privacycg/saa-non-cookie-storage/omit-unpartitioned-cookies.md)
-* [Additional Extension: Shared Workers](https://github.com/privacycg/saa-non-cookie-storage/shared-workers.md)
+* [Additional Extension: Omit Unpartitioned Cookies](https://github.com/privacycg/saa-non-cookie-storage/blob/main/omit-unpartitioned-cookies.md)
+* [Additional Extension: Shared Workers](https://github.com/privacycg/saa-non-cookie-storage/blob/main/shared-workers.md)
 
 ## Introduction
 
