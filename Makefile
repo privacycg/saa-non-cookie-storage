@@ -6,7 +6,7 @@ all: publish
 publish: _site/index.html
 
 clean:
-	rm -rf build *~
+	rm -rf _site
 
 _site/index.html: spec.bs Makefile
 	mkdir -p _site
