@@ -26,6 +26,8 @@ spec: html; urlPrefix: https://html.spec.whatwg.org/
             text: web storage; url: #webstorage
             text: sessionStorage; url: #dom-sessionstorage
             text: localStorage; url: #dom-localstorage
+            text: broadcast channel; url: #broadcasting-to-other-browsing-contexts
+            text: new broadcastchannel; url: #dom-broadcastchannel
 spec: storage-access; urlPrefix: https://privacycg.github.io/storage-access/
     type: dfn
         for: environment
@@ -35,26 +37,26 @@ spec: storage-access; urlPrefix: https://privacycg.github.io/storage-access/
         text: third party context; url: #third-party-context
 spec: indexed-db; urlPrefix: https://www.w3.org/TR/IndexedDB/
     type: dfn
-        text: Indexed Database API; url:
+        text: indexed database api; url:
 spec: web-locks; urlPrefix: https://www.w3.org/TR/web-locks/
     type: dfn
-        text: Web Locks API; url:
+        text: web locks api; url:
         text: locks; url: #dom-navigatorlocks-locks
 spec: service-worker; urlPrefix: https://w3c.github.io/ServiceWorker/
     type: dfn
-        text: Cache Storage; url: #cache-objects
+        text: cache storage; url: #cache-objects
         text: caches; url: #global-caches-attribute
 spec: storage; urlPrefix: https://storage.spec.whatwg.org/
     type: dfn
-        text: Storage Manager; url:
+        text: storage manager; url:
 spec: file-system; urlPrefix: https://fs.spec.whatwg.org/
     type: dfn
-        text: File System; url:
+        text: file system; url:
 spec: file-api; urlPrefix: https://www.w3.org/TR/FileAPI/
     type: dfn
-        text: File API; url:
-        text: createObjectURL; url: #dfn-createObjectURL
-        text: revokeObjectURL; url: #dfn-revokeObjectURL
+        text: file api; url:
+        text: createobjecturl; url: #dfn-createObjectURL
+        text: revokeobjecturl; url: #dfn-revokeObjectURL
 </pre>
 
 <pre class=biblio>
@@ -130,6 +132,7 @@ dictionary StorageAccessTypes {
   boolean estimate = false;
   boolean createObjectURL = false;
   boolean revokeObjectURL = false;
+  boolean BroadcastChannel = false;
 };
 
 interface StorageAccessHandle {
@@ -142,6 +145,7 @@ interface StorageAccessHandle {
   Promise&lt;StorageEstimate> estimate();
   DOMString createObjectURL((Blob or MediaSource) obj);
   undefined revokeObjectURL(DOMString url);
+  BroadcastChannel BroadcastChannel(DOMString name);
 };
 
 partial interface Document {
@@ -162,7 +166,7 @@ For now {{Document/hasStorageAccess()}} is not considered deprecated, but that <
 When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>requestStorageAccess(types)</code></dfn> method must run these steps:
 
 1. Let |p| be [=a new promise=].
-1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/cookies}} is `false` and |types|.{{StorageAccessTypes/sessionStorage}} is `false` and |types|.{{StorageAccessTypes/localStorage}} is `false` and |types|.{{StorageAccessTypes/indexedDB}} is `false` and |types|.{{StorageAccessTypes/locks}} is `false` and |types|.{{StorageAccessTypes/caches}} is `false` and |types|.{{StorageAccessTypes/getDirectory}} is `false` and |types|.{{StorageAccessTypes/estimate}} is `false` and |types|.{{StorageAccessTypes/createObjectURL}} is `false` and |types|.{{StorageAccessTypes/revokeObjectURL}} is `false`:
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/cookies}} is `false` and |types|.{{StorageAccessTypes/sessionStorage}} is `false` and |types|.{{StorageAccessTypes/localStorage}} is `false` and |types|.{{StorageAccessTypes/indexedDB}} is `false` and |types|.{{StorageAccessTypes/locks}} is `false` and |types|.{{StorageAccessTypes/caches}} is `false` and |types|.{{StorageAccessTypes/getDirectory}} is `false` and |types|.{{StorageAccessTypes/estimate}} is `false` and |types|.{{StorageAccessTypes/createObjectURL}} is `false` and |types|.{{StorageAccessTypes/revokeObjectURL}} is `false` and |types|.{{StorageAccessTypes/BroadcastChannel}} is `false`:
     1. [=/Reject=] |p| with an "{{InvalidStateError}}" {{DOMException}}.
     1. Return |p|.
 1. Let |requestUnpartitionedCookieAccess| be `true` if |types|.{{StorageAccessTypes/all}} is `true` or |types|.{{StorageAccessTypes/cookies}} is `true`, and `false` otherwise.
@@ -261,21 +265,25 @@ When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |ty
 
 <h4 id="file-api">[=File API=]</h4>
 
-When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, {{Document}} |docForSAA|, and {{Blob}} or {{MediaSource}} |obj|, the <dfn export getter for=StorageAccessHandle><code>createObjectURL</code></dfn> getter must run these steps:
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, {{Document}} |docForSAA|, and {{Blob}} or {{MediaSource}} |obj|, the <dfn export method for=StorageAccessHandle><code>createObjectURL(obj)</code></dfn> method must run these steps:
 
 1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/createObjectURL}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
 1. Return the invocation of [=/createObjectURL=] on |docForSAA|.{{URL}} with |obj|.
 
-When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, {{Document}} |docForSAA|, and {{DOMString}} |url|, the <dfn export getter for=StorageAccessHandle><code>revokeObjectURL</code></dfn> getter must run these steps:
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, {{Document}} |docForSAA|, and {{DOMString}} |url|, the <dfn export method for=StorageAccessHandle><code>revokeObjectURL(url)</code></dfn> method must run these steps:
 
 1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/revokeObjectURL}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
 1. Return the invocation of [=/revokeObjectURL=] on |docForSAA|.{{URL}} with |url|.
 
-<h4 id="broadcast-channel">Broadcast Channel</h4>
+<h4 id="broadcast-channel">[=Broadcast Channel=]</h4>
 
-TBD
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, {{Document}} |docForSAA|, and {{DOMString}} |name|, the <dfn export method for=StorageAccessHandle><code>BroadcastChannel(name)</code></dfn> method must run these steps:
+
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/BroadcastChannel}} is `false`:
+    1. Throw an "{{InvalidStateError}}" {{DOMException}}.
+1. Return the invocation of [=new BroadcastChannel=] on |docForSAA| with |name|.
 
 <h4 id="shared-worker">Shared Worker</h4>
 
