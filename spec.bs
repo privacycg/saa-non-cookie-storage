@@ -127,7 +127,7 @@ When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>re
 Redefine {{Document/requestStorageAccess()}} to:
 1. Return the result of running [=request storage access=] with |doc| and |requestUnpartitionedCookieAccess| being `true`.
 
-Redefine the steps of {{Document/requestStorageAccess()}} to instead be the steps of <dfn export>request storage access</dfn> which takes a `boolean` argument |requestUnpartitionedCookieAccess|.
+Modify {{Document/requestStorageAccess()}} to instead be the algorithm <dfn export>request storage access</dfn> which takes a {{Document}} |doc| and a `boolean` argument |requestUnpartitionedCookieAccess|.
 
 Modify {{Document/requestStorageAccess()}} at step 14.1.1.1.1 to read:
 
