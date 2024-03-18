@@ -200,13 +200,13 @@ For all of the following getters and methods, consider the |docForSAA| to be |do
 
 <h4 id="dom-storage">[=Web storage=]</h4>
 
-When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Document}} |docForSAA|, the <dfn export getter for=StorageAccessHandle><code>sessionStorage</code></dfn> getter must run these steps:
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Document}} |docForSAA|, the <dfn export attribute for=StorageAccessHandle><code>sessionStorage</code></dfn> getter must run these steps:
 
 1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/sessionStorage}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
 1. Return the invocation of [=html/sessionStorage=] on |docForSAA|.
 
-When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Document}} |docForSAA|, the <dfn export getter for=StorageAccessHandle><code>localStorage</code></dfn> getter must run these steps:
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Document}} |docForSAA|, the <dfn export attribute for=StorageAccessHandle><code>localStorage</code></dfn> getter must run these steps:
 
 1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/localStorage}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
@@ -214,7 +214,7 @@ When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |ty
 
 <h4 id="indexed-db">[=Indexed Database API=]</h4>
 
-When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Document}} |docForSAA|, the <dfn export getter for=StorageAccessHandle><code>indexedDB</code></dfn> getter must run these steps:
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Document}} |docForSAA|, the <dfn export attribute for=StorageAccessHandle><code>indexedDB</code></dfn> getter must run these steps:
 
 1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/indexedDB}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
@@ -222,7 +222,7 @@ When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |ty
 
 <h4 id="web-locks">[=Web Locks API=]</h4>
 
-When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Document}} |docForSAA|, the <dfn export getter for=StorageAccessHandle><code>locks</code></dfn> getter must run these steps:
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Document}} |docForSAA|, the <dfn export attribute for=StorageAccessHandle><code>locks</code></dfn> getter must run these steps:
 
 1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/locks}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
@@ -230,7 +230,7 @@ When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |ty
 
 <h4 id="cache-storage">[=Cache Storage=]</h4>
 
-When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Document}} |docForSAA|, the <dfn export getter for=StorageAccessHandle><code>caches</code></dfn> getter must run these steps:
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Document}} |docForSAA|, the <dfn export attribute for=StorageAccessHandle><code>caches</code></dfn> getter must run these steps:
 
 1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/caches}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
