@@ -85,9 +85,13 @@ let userid = handle.localStorage.getItem("userid");
 dictionary StorageAccessTypes {
   boolean all = false;
   boolean cookies = false;
+  boolean sessionStorage = false;
+  boolean localStorage = false;
 };
 
 interface StorageAccessHandle {
+  readonly attribute Storage sessionStorage;
+  readonly attribute Storage localStorage;
 };
 
 partial interface Document {
@@ -108,7 +112,7 @@ For now {{Document/hasStorageAccess()}} is not considered deprecated, but that <
 When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>requestStorageAccess(types)</code></dfn> method must run these steps:
 
 1. Let |p| be [=a new promise=].
-1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/cookies}} is `false`:
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/cookies}} is `false` and |types|.{{StorageAccessTypes/sessionStorage}} is `false` and |types|.{{StorageAccessTypes/localStorage}} is `false`:
     1. [=/Reject=] |p| with an "{{InvalidStateError}}" {{DOMException}}.
     1. Return |p|.
 1. Let |requestUnpartitionedCookieAccess| be `true` if |types|.{{StorageAccessTypes/all}} is `true` or |types|.{{StorageAccessTypes/cookies}} is `true`, and `false` otherwise.
@@ -136,7 +140,13 @@ Modify {{Document/requestStorageAccess()}} at step 14.1.1.1.1 to read:
 
 <h4 id="dom-storage">DOM Storage</h4>
 
-TBD
+When invoked on {{StorageAccessHandle}} |handle|, the <dfn export member for=StorageAccessHandle><code>sessionStorage</code></dfn> method must run these steps:
+
+1. TBD
+
+When invoked on {{StorageAccessHandle}} |handle|, the <dfn export member for=StorageAccessHandle><code>localStorage</code></dfn> method must run these steps:
+
+1. TBD
 
 <h4 id="indexed-db">IndexedDB</h4>
 
