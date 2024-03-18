@@ -15,6 +15,20 @@ Markup Shorthands: markdown yes, css no
 Complain About: accidental-2119 true
 </pre>
 
+<pre class=link-defaults>
+spec:html; type:dfn; for:site; text:same site
+</pre>
+
+<pre class="anchors">
+spec: storage-access; urlPrefix: https://privacycg.github.io/storage-access/
+    type: dfn
+        for: environment
+            text: has storage access; url: #environment-has-storage-access
+        text: unpartitioned data; url: #unpartitioned-data
+        text: first-party-site context; url: #first-party-site-context
+        text: third party context; url: #third-party-context
+</pre>
+
 <pre class=biblio>
 {
     "STORAGE-ACCESS": {
@@ -44,19 +58,81 @@ This specification extends the client-side storage available beyond cookies.
 
 <h2 id="extending-saa-to-non-cookie-storage">Extending SAA to non-cookie storage</h2>
 
-TBD
+This specification defines a method to request access to [=unpartitioned data=] beyond just cookies ({{Document/requestStorageAccess(types)}}), and a method to check if cookie access has specifically been granted ({{Document/hasUnpartitionedCookieAccess()}}).
 
-<h3 id="the-document-object">Changes to {{Document}}</h3>
+<div class=example>
 
-TBD
+Alex visits `https://social.example/`. The page sets a some local storage. This local storage has been set in a [=first-party-site context=].
+
+```javascript
+window.localStorage.setItem("userid", "1234");
+```
+
+Later on, Alex visits `https://video.example/`, which has an <{iframe}> on it which loads `https://social.example/heart-button`. In this case, the `social.example` {{Document}} |doc| is in a [=third party context=], and the local storage set previously might or might not be visible depending on User Agent storage access policies.
+
+Script in the <{iframe}> can call |doc|`.`{{Document/requestStorageAccess(types)}} to request access.
+
+```javascript
+let handle = await document.requestStorageAccess({localStorage: true});
+let userid = handle.localStorage.getItem("userid");
+```
+
+</div>
+
+<h3 id="document-changes">Changes to {{Document}}</h3>
+
+<pre class="idl">
+dictionary StorageAccessTypes {
+  boolean all = false;
+  boolean cookies = false;
+};
+
+interface StorageAccessHandle {
+};
+
+partial interface Document {
+  Promise&lt;boolean> hasUnpartitionedCookieAccess();
+  Promise&lt;StorageAccessHandle> requestStorageAccess(StorageAccessTypes types);
+};
+</pre>
+
+When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>hasUnpartitionedCookieAccess()</code></dfn> method must run these steps:
+
+1. Return the invocation of {{Document/hasStorageAccess()}} on |doc|.
+
+Note:
+Now that {{Document/requestStorageAccess(types)}} <span class=allow-2119>can</span> be used to request [=unpartitioned data=] with or without specifically requesting cookies, it <span class=allow-2119>must</span> be made clear that {{Document/hasStorageAccess()}} only returns true if [=first-party-site context=] cookies are accessable to the current document.
+As a function name, {{Document/hasUnpartitionedCookieAccess()}} more clearly communicates this.
+For now {{Document/hasStorageAccess()}} is not considered deprecated, but that <span class=allow-2119>may</span> be worth taking up in future.
+
+When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>requestStorageAccess(types)</code></dfn> method must run these steps:
+
+1. Let |p| be [=a new promise=].
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/cookies}} is `false`:
+    1. [=/Reject=] |p| with an "{{InvalidStateError}}" {{DOMException}}.
+    1. Return |p|.
+1. Let |requestUnpartitionedCookieAccess| be `true` if |types|.{{StorageAccessTypes/all}} is `true` or |types|.{{StorageAccessTypes/cookies}} is `true`, and `false` otherwise.
+1. Let |accessPromise| be the result of running [=request storage access=] with |doc| with |requestUnpartitionedCookieAccess|.
+1. If |accessPromise| [=/rejects=] with `reason` |r|:
+    1. [=/Reject=] |p| with |r|.
+1. Else:
+    1. Let |handle| be a new object of type {{StorageAccessHandle}} with |types|.
+    1. [=/Resolve=] |p| with |handle|.
+1. Return |p|.
+
+
+<h3 id="request-storage-access-changes">Changes to {{Document/requestStorageAccess()}}</h3>
+
+Redefine {{Document/requestStorageAccess()}} to:
+1. Return the result of running [=request storage access=] with |doc| and |requestUnpartitionedCookieAccess| being `true`.
+
+Modify {{Document/requestStorageAccess()}} to instead be the algorithm <dfn export>request storage access</dfn> which takes a {{Document}} |doc| and a `boolean` argument |requestUnpartitionedCookieAccess|.
+
+Modify {{Document/requestStorageAccess()}} at step 14.1.1.1.1 to read:
+
+1. If |requestUnpartitionedCookieAccess| is `true`, then set <var ignore='monkeypatch'>global</var>'s [=environment/has storage access=] to true.
 
 <h3 id="storage">Changes to various client-side storage mechanisms</h3>
-
-TBD
-
-<h4 id="cookies">Cookies</h4>
-
-TBD
 
 <h4 id="dom-storage">DOM Storage</h4>
 
