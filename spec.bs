@@ -43,6 +43,12 @@ spec: service-worker; urlPrefix: https://w3c.github.io/ServiceWorker/
     type: dfn
         text: Cache Storage; url: #cache-objects
         text: caches; url: #global-caches-attribute
+spec: storage; urlPrefix: https://storage.spec.whatwg.org/
+    type: dfn
+        text: Storage Manager; url:
+spec: file-system; urlPrefix: https://fs.spec.whatwg.org/
+    type: dfn
+        text: File System; url:
 </pre>
 
 <pre class=biblio>
@@ -114,6 +120,8 @@ dictionary StorageAccessTypes {
   boolean indexedDB = false;
   boolean locks = false;
   boolean caches = false;
+  boolean getDirectory = false;
+  boolean estimate = false;
 };
 
 interface StorageAccessHandle {
@@ -122,6 +130,8 @@ interface StorageAccessHandle {
   readonly attribute IDBFactory indexedDB;
   readonly attribute LockManager locks;
   readonly attribute CacheStorage caches;
+  Promise&lt;FileSystemDirectoryHandle> getDirectory();
+  Promise&lt;StorageEstimate> estimate();
 };
 
 partial interface Document {
@@ -142,7 +152,7 @@ For now {{Document/hasStorageAccess()}} is not considered deprecated, but that <
 When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>requestStorageAccess(types)</code></dfn> method must run these steps:
 
 1. Let |p| be [=a new promise=].
-1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/cookies}} is `false` and |types|.{{StorageAccessTypes/sessionStorage}} is `false` and |types|.{{StorageAccessTypes/localStorage}} is `false` and |types|.{{StorageAccessTypes/indexedDB}} is `false` and |types|.{{StorageAccessTypes/locks}} is `false` and |types|.{{StorageAccessTypes/caches}} is `false`:
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/cookies}} is `false` and |types|.{{StorageAccessTypes/sessionStorage}} is `false` and |types|.{{StorageAccessTypes/localStorage}} is `false` and |types|.{{StorageAccessTypes/indexedDB}} is `false` and |types|.{{StorageAccessTypes/locks}} is `false` and |types|.{{StorageAccessTypes/caches}} is `false` and |types|.{{StorageAccessTypes/getDirectory}} is `false` and |types|.{{StorageAccessTypes/estimate}} is `false`:
     1. [=/Reject=] |p| with an "{{InvalidStateError}}" {{DOMException}}.
     1. Return |p|.
 1. Let |requestUnpartitionedCookieAccess| be `true` if |types|.{{StorageAccessTypes/all}} is `true` or |types|.{{StorageAccessTypes/cookies}} is `true`, and `false` otherwise.
@@ -153,7 +163,6 @@ When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>re
     1. Let |handle| be a new object of type {{StorageAccessHandle}} with |types|.
     1. [=/Resolve=] |p| with |handle|.
 1. Return |p|.
-
 
 <h3 id="request-storage-access-changes">Changes to {{Document/requestStorageAccess()}}</h3>
 
@@ -173,7 +182,6 @@ For all of the following getters and functions, consider the |docForSAA| to be |
 1. No existing storage mechanism caches on |doc| will be available on |docForSAA|.
 1. Any storage mechanism caches made on |docForSAA| will not be added to |doc|.
 1. When attempting to [=obtain a storage key=] the returned key will use [[STORAGE-PARTITIONING#relaxing-additional-keying]].
-
 
 <h4 id="dom-storage">[=Web storage=]</h4>
 
@@ -213,9 +221,33 @@ When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |ty
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
 1. Return the invocation of [=/caches=] on |docForSAA|.
 
-<h4 id="storage-manager">Storage Manager</h4>
+<h4 id="file-system">[=File System=]</h4>
 
-TBD
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Document}} |docForSAA|, the <dfn export method for=StorageAccessHandle><code>getDirectory()</code></dfn> method must run these steps:
+
+1. Let |p| be [=a new promise=].
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/getDirectory}} is `false`:
+    1. [=/Reject=] |p| with an "{{InvalidStateError}}" {{DOMException}}.
+1. Let |directoryPromise| be the result of running {{StorageManager/getDirectory()}} on |docForSAA|.{{Navigator}}.{{NavigatorStorage/storage}}.
+1. If |directoryPromise| [=/rejects=] with `reason` |r|:
+    1. [=/Reject=] |p| with |r|.
+1. Else if |directoryPromise| [=/resolves=] with {{FileSystemDirectoryHandle}} |f|:
+    1. [=/Resolve=] |p| with |f|.
+1. Return |p|.
+
+<h4 id="storage-manager">[=Storage Manager=]</h4>
+
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Document}} |docForSAA|, the <dfn export method for=StorageAccessHandle><code>estimate()</code></dfn> method must run these steps:
+
+1. Let |p| be [=a new promise=].
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/estimate}} is `false`:
+    1. [=/Reject=] |p| with an "{{InvalidStateError}}" {{DOMException}}.
+1. Let |estimatePromise| be the result of running {{StorageManager/estimate()}} on |docForSAA|.{{Navigator}}.{{NavigatorStorage/storage}}.
+1. If |estimatePromise| [=/rejects=] with `reason` |r|:
+    1. [=/Reject=] |p| with |r|.
+1. Else if |estimatePromise| [=/resolves=] with {{StorageEstimate}} |e|:
+    1. [=/Resolve=] |p| with |e|.
+1. Return |p|.
 
 <h4 id="file-api">File API</h4>
 
