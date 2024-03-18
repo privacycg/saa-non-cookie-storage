@@ -34,7 +34,11 @@ spec: storage-access; urlPrefix: https://privacycg.github.io/storage-access/
         text: third party context; url: #third-party-context
 spec: indexed-db; urlPrefix: https://www.w3.org/TR/IndexedDB/
     type: dfn
-        text: Indexed Database API; url: #
+        text: Indexed Database API; url:
+spec: web-locks; urlPrefix: https://www.w3.org/TR/web-locks/
+    type: dfn
+        text: Web Locks API; url:
+        text: locks; url: #dom-navigatorlocks-locks
 </pre>
 
 <pre class=biblio>
@@ -104,12 +108,14 @@ dictionary StorageAccessTypes {
   boolean sessionStorage = false;
   boolean localStorage = false;
   boolean indexedDB = false;
+  boolean locks = false;
 };
 
 interface StorageAccessHandle {
   readonly attribute Storage sessionStorage;
   readonly attribute Storage localStorage;
   readonly attribute IDBFactory indexedDB;
+  readonly attribute LockManager locks;
 };
 
 partial interface Document {
@@ -130,7 +136,7 @@ For now {{Document/hasStorageAccess()}} is not considered deprecated, but that <
 When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>requestStorageAccess(types)</code></dfn> method must run these steps:
 
 1. Let |p| be [=a new promise=].
-1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/cookies}} is `false` and |types|.{{StorageAccessTypes/sessionStorage}} is `false` and |types|.{{StorageAccessTypes/localStorage}} is `false` and |types|.{{StorageAccessTypes/indexedDB}} is `false`:
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/cookies}} is `false` and |types|.{{StorageAccessTypes/sessionStorage}} is `false` and |types|.{{StorageAccessTypes/localStorage}} is `false` and |types|.{{StorageAccessTypes/indexedDB}} is `false` and |types|.{{StorageAccessTypes/locks}} is `false`:
     1. [=/Reject=] |p| with an "{{InvalidStateError}}" {{DOMException}}.
     1. Return |p|.
 1. Let |requestUnpartitionedCookieAccess| be `true` if |types|.{{StorageAccessTypes/all}} is `true` or |types|.{{StorageAccessTypes/cookies}} is `true`, and `false` otherwise.
@@ -156,7 +162,7 @@ Modify {{Document/requestStorageAccess()}} at step 14.1.1.1.1 to read:
 
 <h3 id="storage">Changes to various client-side storage mechanisms</h3>
 
-For all of the following mechanisms, consider the |docForSAA| to be |doc| with the following modifications:
+For all of the following getters and functions, consider the |docForSAA| to be |doc| with the following modifications:
 
 1. No existing storage mechanism caches on |doc| will be available on |docForSAA|.
 1. Any storage mechanism caches made on |docForSAA| will not be added to |doc|.
@@ -185,9 +191,13 @@ When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |ty
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
 1. Return the invocation of {{WindowOrWorkerGlobalScope/indexedDB}} on |docForSAA|.
 
-<h4 id="web-locks">Web Locks</h4>
+<h4 id="web-locks">[=Web Locks API=]</h4>
 
-TBD
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Document}} |docForSAA|, the <dfn export getter for=StorageAccessHandle><code>locks</code></dfn> getter must run these steps:
+
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/locks}} is `false`:
+    1. Throw an "{{InvalidStateError}}" {{DOMException}}.
+1. Return the invocation of [=/locks=] on |docForSAA|.{{Navigator}}.
 
 <h4 id="cache-storage">Cache Storage</h4>
 
