@@ -19,6 +19,7 @@ Complain About: accidental-2119 true
 spec:html; type:dfn; for:site; text:same site
 spec:url; type:interface; text:URL
 </pre>
+
 <pre class="anchors">
 spec: html; urlPrefix: https://html.spec.whatwg.org/
     type: dfn
@@ -191,7 +192,7 @@ Modify {{Document/requestStorageAccess()}} at step 14.1.1.1.1 to read:
 
 <h3 id="storage">Changes to various client-side storage mechanisms</h3>
 
-For all of the following getters and functions, consider the |docForSAA| to be |doc| with the following modifications:
+For all of the following getters and methods, consider the |docForSAA| to be |doc| with the following modifications:
 
 1. No existing storage mechanism caches on |doc| will be available on |docForSAA|.
 1. Any storage mechanism caches made on |docForSAA| will not be added to |doc|.
