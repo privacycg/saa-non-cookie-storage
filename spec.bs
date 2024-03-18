@@ -32,6 +32,9 @@ spec: storage-access; urlPrefix: https://privacycg.github.io/storage-access/
         text: unpartitioned data; url: #unpartitioned-data
         text: first-party-site context; url: #first-party-site-context
         text: third party context; url: #third-party-context
+spec: indexed-db; urlPrefix: https://www.w3.org/TR/IndexedDB/
+    type: dfn
+        text: Indexed Database API; url: #
 </pre>
 
 <pre class=biblio>
@@ -100,11 +103,13 @@ dictionary StorageAccessTypes {
   boolean cookies = false;
   boolean sessionStorage = false;
   boolean localStorage = false;
+  boolean indexedDB = false;
 };
 
 interface StorageAccessHandle {
   readonly attribute Storage sessionStorage;
   readonly attribute Storage localStorage;
+  readonly attribute IDBFactory indexedDB;
 };
 
 partial interface Document {
@@ -125,7 +130,7 @@ For now {{Document/hasStorageAccess()}} is not considered deprecated, but that <
 When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>requestStorageAccess(types)</code></dfn> method must run these steps:
 
 1. Let |p| be [=a new promise=].
-1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/cookies}} is `false` and |types|.{{StorageAccessTypes/sessionStorage}} is `false` and |types|.{{StorageAccessTypes/localStorage}} is `false`:
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/cookies}} is `false` and |types|.{{StorageAccessTypes/sessionStorage}} is `false` and |types|.{{StorageAccessTypes/localStorage}} is `false` and |types|.{{StorageAccessTypes/indexedDB}} is `false`:
     1. [=/Reject=] |p| with an "{{InvalidStateError}}" {{DOMException}}.
     1. Return |p|.
 1. Let |requestUnpartitionedCookieAccess| be `true` if |types|.{{StorageAccessTypes/all}} is `true` or |types|.{{StorageAccessTypes/cookies}} is `true`, and `false` otherwise.
@@ -172,9 +177,13 @@ When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |ty
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
 1. Return the invocation of [=html/localStorage=] on |docForSAA|.
 
-<h4 id="indexed-db">IndexedDB</h4>
+<h4 id="indexed-db">[=Indexed Database API=]</h4>
 
-TBD
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Document}} |docForSAA|, the <dfn export getter for=StorageAccessHandle><code>indexedDB</code></dfn> getter must run these steps:
+
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/indexedDB}} is `false`:
+    1. Throw an "{{InvalidStateError}}" {{DOMException}}.
+1. Return the invocation of {{WindowOrWorkerGlobalScope/indexedDB}} on |docForSAA|.
 
 <h4 id="web-locks">Web Locks</h4>
 
