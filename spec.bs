@@ -124,7 +124,8 @@ When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>re
 
 <h3 id="request-storage-access-changes">Changes to {{Document/requestStorageAccess()}}</h3>
 
-Modify {{Document/requestStorageAccess()}} to invoke [=request storage access=] with |requestUnpartitionedCookieAccess| being `true`.
+Redefine {{Document/requestStorageAccess()}} to:
+1. Return the result of running [=request storage access=] with |doc| and |requestUnpartitionedCookieAccess| being `true`.
 
 Redefine the steps of {{Document/requestStorageAccess()}} to instead be the steps of <dfn export>request storage access</dfn> which takes a `boolean` argument |requestUnpartitionedCookieAccess|.
 
