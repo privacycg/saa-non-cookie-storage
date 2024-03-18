@@ -18,8 +18,13 @@ Complain About: accidental-2119 true
 <pre class=link-defaults>
 spec:html; type:dfn; for:site; text:same site
 </pre>
-
 <pre class="anchors">
+spec: html; urlPrefix: https://html.spec.whatwg.org/
+    type: dfn
+        for: html
+            text: web storage; url: #webstorage
+            text: sessionStorage; url: #dom-sessionstorage
+            text: localStorage; url: #dom-localstorage
 spec: storage-access; urlPrefix: https://privacycg.github.io/storage-access/
     type: dfn
         for: environment
@@ -40,6 +45,14 @@ spec: storage-access; urlPrefix: https://privacycg.github.io/storage-access/
         "href": "https://privacycg.github.io/storage-access/",
         "publisher": "W3C",
         "title": "The Storage Access API"
+    },
+    "STORAGE-PARTITIONING": {
+        "authors": [
+            "Privacy Community Group"
+        ],
+        "href": "https://privacycg.github.io/storage-partitioning/",
+        "publisher": "W3C",
+        "title": "Client-Side Storage Partitioning"
     }
 }
 </pre>
@@ -138,15 +151,26 @@ Modify {{Document/requestStorageAccess()}} at step 14.1.1.1.1 to read:
 
 <h3 id="storage">Changes to various client-side storage mechanisms</h3>
 
-<h4 id="dom-storage">DOM Storage</h4>
+For all of the following mechanisms, consider the |docForSAA| to be |doc| with the following modifications:
 
-When invoked on {{StorageAccessHandle}} |handle|, the <dfn export member for=StorageAccessHandle><code>sessionStorage</code></dfn> method must run these steps:
+1. No existing storage mechanism caches on |doc| will be available on |docForSAA|.
+1. Any storage mechanism caches made on |docForSAA| will not be added to |doc|.
+1. When attempting to [=obtain a storage key=] the returned key will use [[STORAGE-PARTITIONING#relaxing-additional-keying]].
 
-1. TBD
 
-When invoked on {{StorageAccessHandle}} |handle|, the <dfn export member for=StorageAccessHandle><code>localStorage</code></dfn> method must run these steps:
+<h4 id="dom-storage">[=Web storage=]</h4>
 
-1. TBD
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Document}} |docForSAA|, the <dfn export getter for=StorageAccessHandle><code>sessionStorage</code></dfn> getter must run these steps:
+
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/sessionStorage}} is `false`:
+    1. Throw an "{{InvalidStateError}}" {{DOMException}}.
+1. Return the invocation of [=html/sessionStorage=] on |docForSAA|.
+
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Document}} |docForSAA|, the <dfn export getter for=StorageAccessHandle><code>localStorage</code></dfn> getter must run these steps:
+
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/localStorage}} is `false`:
+    1. Throw an "{{InvalidStateError}}" {{DOMException}}.
+1. Return the invocation of [=html/localStorage=] on |docForSAA|.
 
 <h4 id="indexed-db">IndexedDB</h4>
 
