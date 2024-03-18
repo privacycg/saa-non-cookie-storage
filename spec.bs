@@ -113,7 +113,7 @@ When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>re
     1. Return |p|.
 1. Let |requestUnpartitionedCookieAccess| be `true` if |types|.{{StorageAccessTypes/all}} is `true` or |types|.{{StorageAccessTypes/cookies}} is `true`, and `false` otherwise.
 1. Run the following steps [=in parallel=]:
-    1. Let |accessPromise| be the result of invoking {{Document/requestStorageAccess()}} with |requestUnpartitionedCookieAccess|.
+    1. Let |accessPromise| be the result of running [=request storage access=] with |doc| with |requestUnpartitionedCookieAccess|.
     1. If |accessPromise| [=/rejects=] with `reason` |r|:
         1. [=/Reject=] |p| with |r|.
     1. Else:
