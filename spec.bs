@@ -132,14 +132,6 @@ Modify {{Document/requestStorageAccess()}} at step 14.1.1.1.1 to read:
 
 1. If |requestUnpartitionedCookieAccess| is `true`, then set <var ignore='monkeypatch'>global</var>'s [=environment/has storage access=] to true.
 
-Modify {{Document/requestStorageAccess()}} at step 14.3 to read:
-
-3. If |explicitSetting| is "`disallow`" and |requestUnpartitionedCookieAccess| is `true`:
-
-Modify {{Document/requestStorageAccess()}} at step 14.5 to read:
-
-5. [=Assert=]: |explicitSetting| is "`none`" or |requestUnpartitionedCookieAccess| is `false`.
-
 <h3 id="storage">Changes to various client-side storage mechanisms</h3>
 
 <h4 id="dom-storage">DOM Storage</h4>
