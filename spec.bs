@@ -17,9 +17,18 @@ Complain About: accidental-2119 true
 
 <pre class=link-defaults>
 spec:html; type:dfn; for:site; text:same site
+spec:url; type:interface; text:URL
 </pre>
 
 <pre class="anchors">
+spec: html; urlPrefix: https://html.spec.whatwg.org/
+    type: dfn
+        for: html
+            text: web storage; url: #webstorage
+            text: sessionStorage; url: #dom-sessionstorage
+            text: localStorage; url: #dom-localstorage
+            text: broadcast channel; url: #broadcasting-to-other-browsing-contexts
+            text: new broadcastchannel; url: #dom-broadcastchannel
 spec: storage-access; urlPrefix: https://privacycg.github.io/storage-access/
     type: dfn
         for: environment
@@ -27,6 +36,28 @@ spec: storage-access; urlPrefix: https://privacycg.github.io/storage-access/
         text: unpartitioned data; url: #unpartitioned-data
         text: first-party-site context; url: #first-party-site-context
         text: third party context; url: #third-party-context
+spec: indexed-db; urlPrefix: https://www.w3.org/TR/IndexedDB/
+    type: dfn
+        text: indexed database api; url:
+spec: web-locks; urlPrefix: https://www.w3.org/TR/web-locks/
+    type: dfn
+        text: web locks api; url:
+        text: locks; url: #dom-navigatorlocks-locks
+spec: service-worker; urlPrefix: https://w3c.github.io/ServiceWorker/
+    type: dfn
+        text: cache storage; url: #cache-objects
+        text: caches; url: #global-caches-attribute
+spec: storage; urlPrefix: https://storage.spec.whatwg.org/
+    type: dfn
+        text: storage manager; url:
+spec: file-system; urlPrefix: https://fs.spec.whatwg.org/
+    type: dfn
+        text: file system; url:
+spec: file-api; urlPrefix: https://www.w3.org/TR/FileAPI/
+    type: dfn
+        text: file api; url:
+        text: createobjecturl; url: #dfn-createObjectURL
+        text: revokeobjecturl; url: #dfn-revokeObjectURL
 </pre>
 
 <pre class=biblio>
@@ -40,6 +71,14 @@ spec: storage-access; urlPrefix: https://privacycg.github.io/storage-access/
         "href": "https://privacycg.github.io/storage-access/",
         "publisher": "W3C",
         "title": "The Storage Access API"
+    },
+    "STORAGE-PARTITIONING": {
+        "authors": [
+            "Privacy Community Group"
+        ],
+        "href": "https://privacycg.github.io/storage-partitioning/",
+        "publisher": "W3C",
+        "title": "Client-Side Storage Partitioning"
     }
 }
 </pre>
@@ -85,9 +124,29 @@ let userid = handle.localStorage.getItem("userid");
 dictionary StorageAccessTypes {
   boolean all = false;
   boolean cookies = false;
+  boolean sessionStorage = false;
+  boolean localStorage = false;
+  boolean indexedDB = false;
+  boolean locks = false;
+  boolean caches = false;
+  boolean getDirectory = false;
+  boolean estimate = false;
+  boolean createObjectURL = false;
+  boolean revokeObjectURL = false;
+  boolean BroadcastChannel = false;
 };
 
 interface StorageAccessHandle {
+  readonly attribute Storage sessionStorage;
+  readonly attribute Storage localStorage;
+  readonly attribute IDBFactory indexedDB;
+  readonly attribute LockManager locks;
+  readonly attribute CacheStorage caches;
+  Promise&lt;FileSystemDirectoryHandle> getDirectory();
+  Promise&lt;StorageEstimate> estimate();
+  DOMString createObjectURL((Blob or MediaSource) obj);
+  undefined revokeObjectURL(DOMString url);
+  BroadcastChannel BroadcastChannel(DOMString name);
 };
 
 partial interface Document {
@@ -95,6 +154,8 @@ partial interface Document {
   Promise&lt;StorageAccessHandle> requestStorageAccess(StorageAccessTypes types);
 };
 </pre>
+
+A {{StorageAccessHandle}} object has an associated {{StorageAccessTypes}} <dfn for=StorageAccessHandle>types</dfn>.
 
 When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>hasUnpartitionedCookieAccess()</code></dfn> method must run these steps:
 
@@ -108,7 +169,7 @@ For now {{Document/hasStorageAccess()}} is not considered deprecated, but that <
 When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>requestStorageAccess(types)</code></dfn> method must run these steps:
 
 1. Let |p| be [=a new promise=].
-1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/cookies}} is `false`:
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/cookies}} is `false` and |types|.{{StorageAccessTypes/sessionStorage}} is `false` and |types|.{{StorageAccessTypes/localStorage}} is `false` and |types|.{{StorageAccessTypes/indexedDB}} is `false` and |types|.{{StorageAccessTypes/locks}} is `false` and |types|.{{StorageAccessTypes/caches}} is `false` and |types|.{{StorageAccessTypes/getDirectory}} is `false` and |types|.{{StorageAccessTypes/estimate}} is `false` and |types|.{{StorageAccessTypes/createObjectURL}} is `false` and |types|.{{StorageAccessTypes/revokeObjectURL}} is `false` and |types|.{{StorageAccessTypes/BroadcastChannel}} is `false`:
     1. [=/Reject=] |p| with an "{{InvalidStateError}}" {{DOMException}}.
     1. Return |p|.
 1. Let |requestUnpartitionedCookieAccess| be `true` if |types|.{{StorageAccessTypes/all}} is `true` or |types|.{{StorageAccessTypes/cookies}} is `true`, and `false` otherwise.
@@ -116,10 +177,10 @@ When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>re
 1. If |accessPromise| [=/rejects=] with `reason` |r|:
     1. [=/Reject=] |p| with |r|.
 1. Else:
-    1. Let |handle| be a new object of type {{StorageAccessHandle}} with |types|.
+    1. Let |handle| be a new object of type {{StorageAccessHandle}}.
+    1. Set |handle|'s [=StorageAccessHandle/types=] to |types|.
     1. [=/Resolve=] |p| with |handle|.
 1. Return |p|.
-
 
 <h3 id="request-storage-access-changes">Changes to {{Document/requestStorageAccess()}}</h3>
 
@@ -134,33 +195,99 @@ Modify {{Document/requestStorageAccess()}} at step 14.1.1.1.1 to read:
 
 <h3 id="storage">Changes to various client-side storage mechanisms</h3>
 
-<h4 id="dom-storage">DOM Storage</h4>
+For all of the following getters and methods, consider the following modifications:
 
-TBD
+1. When attempting to [=obtain a storage key=] the returned key will use [[STORAGE-PARTITIONING#relaxing-additional-keying]] if the tuple does not simply contain an [=/origin=].
 
-<h4 id="indexed-db">IndexedDB</h4>
+Issue(19): Clarify client-side storage mechanism changes in more detail.
 
-TBD
+<h4 id="dom-storage">[=Web storage=]</h4>
 
-<h4 id="web-locks">Web Locks</h4>
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, the <dfn export attribute for=StorageAccessHandle><code>sessionStorage</code></dfn> getter must run these steps:
 
-TBD
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/sessionStorage}} is `false`:
+    1. Throw an "{{InvalidStateError}}" {{DOMException}}.
+1. Return the invocation of [=html/sessionStorage=].
 
-<h4 id="cache-storage">Cache Storage</h4>
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, the <dfn export attribute for=StorageAccessHandle><code>localStorage</code></dfn> getter must run these steps:
 
-TBD
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/localStorage}} is `false`:
+    1. Throw an "{{InvalidStateError}}" {{DOMException}}.
+1. Return the invocation of [=html/localStorage=].
 
-<h4 id="storage-manager">Storage Manager</h4>
+<h4 id="indexed-db">[=Indexed Database API=]</h4>
 
-TBD
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, the <dfn export attribute for=StorageAccessHandle><code>indexedDB</code></dfn> getter must run these steps:
 
-<h4 id="file-api">File API</h4>
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/indexedDB}} is `false`:
+    1. Throw an "{{InvalidStateError}}" {{DOMException}}.
+1. Return the invocation of {{WindowOrWorkerGlobalScope/indexedDB}} on |doc|.
 
-TBD
+<h4 id="web-locks">[=Web Locks API=]</h4>
 
-<h4 id="broadcast-channel">Broadcast Channel</h4>
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, the <dfn export attribute for=StorageAccessHandle><code>locks</code></dfn> getter must run these steps:
 
-TBD
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/locks}} is `false`:
+    1. Throw an "{{InvalidStateError}}" {{DOMException}}.
+1. Return the invocation of [=/locks=] on {{Navigator}}.
+
+<h4 id="cache-storage">[=Cache Storage=]</h4>
+
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, the <dfn export attribute for=StorageAccessHandle><code>caches</code></dfn> getter must run these steps:
+
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/caches}} is `false`:
+    1. Throw an "{{InvalidStateError}}" {{DOMException}}.
+1. Return the invocation of [=/caches=].
+
+<h4 id="file-system">[=File System=]</h4>
+
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, the <dfn export method for=StorageAccessHandle><code>getDirectory()</code></dfn> method must run these steps:
+
+1. Let |p| be [=a new promise=].
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/getDirectory}} is `false`:
+    1. [=/Reject=] |p| with an "{{InvalidStateError}}" {{DOMException}}.
+1. Let |directoryPromise| be the result of running {{StorageManager/getDirectory()}} on {{Navigator}}.{{NavigatorStorage/storage}}.
+1. If |directoryPromise| [=/rejects=] with `reason` |r|:
+    1. [=/Reject=] |p| with |r|.
+1. Else if |directoryPromise| [=/resolves=] with {{FileSystemDirectoryHandle}} |f|:
+    1. [=/Resolve=] |p| with |f|.
+1. Return |p|.
+
+<h4 id="storage-manager">[=Storage Manager=]</h4>
+
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, the <dfn export method for=StorageAccessHandle><code>estimate()</code></dfn> method must run these steps:
+
+1. Let |p| be [=a new promise=].
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/estimate}} is `false`:
+    1. [=/Reject=] |p| with an "{{InvalidStateError}}" {{DOMException}}.
+1. Let |estimatePromise| be the result of running {{StorageManager/estimate()}} on {{Navigator}}.{{NavigatorStorage/storage}}.
+1. If |estimatePromise| [=/rejects=] with `reason` |r|:
+    1. [=/Reject=] |p| with |r|.
+1. Else if |estimatePromise| [=/resolves=] with {{StorageEstimate}} |e|:
+    1. [=/Resolve=] |p| with |e|.
+1. Return |p|.
+
+<h4 id="file-api">[=File API=]</h4>
+
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{Blob}} or {{MediaSource}} |obj|, the <dfn export method for=StorageAccessHandle><code>createObjectURL(obj)</code></dfn> method must run these steps:
+
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/createObjectURL}} is `false`:
+    1. Throw an "{{InvalidStateError}}" {{DOMException}}.
+1. Return the invocation of [=/createObjectURL=] on {{URL}} with |obj|.
+
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{DOMString}} |url|, the <dfn export method for=StorageAccessHandle><code>revokeObjectURL(url)</code></dfn> method must run these steps:
+
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/revokeObjectURL}} is `false`:
+    1. Throw an "{{InvalidStateError}}" {{DOMException}}.
+1. Return the invocation of [=/revokeObjectURL=] on {{URL}} with |url|.
+
+<h4 id="broadcast-channel">[=Broadcast Channel=]</h4>
+
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{DOMString}} |name|, the <dfn export method for=StorageAccessHandle><code>BroadcastChannel(name)</code></dfn> method must run these steps:
+
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/BroadcastChannel}} is `false`:
+    1. Throw an "{{InvalidStateError}}" {{DOMException}}.
+1. Return the invocation of [=new BroadcastChannel=] with |name|.
 
 <h4 id="shared-worker">Shared Worker</h4>
 
