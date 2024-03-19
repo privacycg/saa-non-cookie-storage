@@ -31,6 +31,7 @@ spec: html; urlPrefix: https://html.spec.whatwg.org/
             text: new broadcastchannel; url: #dom-broadcastchannel
             text: shared workers; url: #shared-workers-and-the-sharedworker-interface
             text: new sharedworker; url: #dom-sharedworker
+            text: processing model; url: #worker-processing-model
 spec: storage-access; urlPrefix: https://privacycg.github.io/storage-access/
     type: dfn
         for: environment
@@ -321,11 +322,11 @@ Modify [=new SharedWorker=] to add a new step below step 1 as follows:
 
 Modify [=new SharedWorker=] to add a new matching criteria in step 10.2.2 as follows:
 
-* |scope|'s |sameSiteCookies| equals |options|.{{SharedWorkerOptions/sameSiteCookies}}.
+* <var ignore='monkeypatch'>scope</var>'s |sameSiteCookies| equals |options|.{{SharedWorkerOptions/sameSiteCookies}}.
 
 Modify [=Processing Model=] to add a new step below step 10.4 as follows:
 
-5. Set |worker global scope|'s |sameSiteCookies| to |options|.{{SharedWorkerOptions/sameSiteCookies}}.
+5. Set <var ignore='monkeypatch'>worker global scope</var>'s |sameSiteCookies| to |options|.{{SharedWorkerOptions/sameSiteCookies}}.
 
 
 Note:
