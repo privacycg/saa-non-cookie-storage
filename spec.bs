@@ -192,7 +192,7 @@ Modify {{Document/requestStorageAccess()}} at step 14.1.1.1.1 to read:
 
 <h3 id="storage">Changes to various client-side storage mechanisms</h3>
 
-For all of the following getters and methods, consider the |docForSAA| to be |doc| with the following modifications:
+For all of the following getters and methods, consider the following modifications:
 
 1. When attempting to [=obtain a storage key=] the returned key will use [[STORAGE-PARTITIONING#relaxing-additional-keying]] if the tuple does not simply contain an [=/origin=].
 
