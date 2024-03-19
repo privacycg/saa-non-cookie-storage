@@ -31,6 +31,7 @@ spec: html; urlPrefix: https://html.spec.whatwg.org/
             text: new broadcastchannel; url: #dom-broadcastchannel
             text: shared workers; url: #shared-workers-and-the-sharedworker-interface
             text: new sharedworker; url: #dom-sharedworker
+            text: processing model; url: #worker-processing-model
 spec: storage-access; urlPrefix: https://privacycg.github.io/storage-access/
     type: dfn
         for: environment
@@ -204,7 +205,7 @@ Modify {{Document/requestStorageAccess()}} at step 14.1.1.1.1 to read:
 
 For all of the following getters and methods, consider the following modifications:
 
-1. When attempting to [=obtain a storage key=] the returned key will use [[STORAGE-PARTITIONING#relaxing-additional-keying]] if the tuple does not simply contain an [=/origin=].
+1. When attempting to [=obtain a storage key for non-storage purposes=] the returned key will use [[STORAGE-PARTITIONING#relaxing-additional-keying]] if the tuple does not simply contain an [=/origin=].
 
 Issue(19): Clarify client-side storage mechanism changes in more detail.
 
@@ -310,12 +311,22 @@ dictionary SharedWorkerOptions : WorkerOptions {
 
 The default {{SharedWorkerOptions/sameSiteCookies}} is {{SameSiteCookiesType/all}} in [=first-party-site context=] and {{SameSiteCookiesType/none}} otherwise.
 
+Modify {{SharedWorkerGlobalScope}} to have an associated {{SameSiteCookiesType}} <dfn export for=SharedWorkerGlobalScope>sameSiteCookies</dfn>.
+
 Modify [=new SharedWorker=] to accept {{SharedWorkerOptions}} instead of {{WorkerOptions}}.
 
 Modify [=new SharedWorker=] to add a new step below step 1 as follows:
 
 2. If |options|.{{SharedWorkerOptions/sameSiteCookies}} is {{SameSiteCookiesType/all}} and {{Window}}'s [=associated document=] is not [=first-party-site context=], then:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
+
+Modify [=new SharedWorker=] to add a new matching criteria in step 10.2.2 as follows:
+
+* <var ignore='monkeypatch'>scope</var>'s |sameSiteCookies| equals |options|.{{SharedWorkerOptions/sameSiteCookies}}.
+
+Modify [=Processing Model=] to add a new step below step 10.4 as follows:
+
+5. Set <var ignore='monkeypatch'>worker global scope</var>'s |sameSiteCookies| to |options|.{{SharedWorkerOptions/sameSiteCookies}}.
 
 Note:
 The {{SameSiteCookiesType}} is used to influence which cookies are sent or read during [=fetch=] based on the [=SameSite=] cookie attribute.
