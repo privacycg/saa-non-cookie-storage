@@ -30,6 +30,7 @@ spec: html; urlPrefix: https://html.spec.whatwg.org/
             text: broadcast channel; url: #broadcasting-to-other-browsing-contexts
             text: new broadcastchannel; url: #dom-broadcastchannel
             text: shared workers; url: #shared-workers-and-the-sharedworker-interface
+            text: new sharedworker; url: #dom-sharedworker
 spec: storage-access; urlPrefix: https://privacycg.github.io/storage-access/
     type: dfn
         for: environment
@@ -59,6 +60,9 @@ spec: file-api; urlPrefix: https://www.w3.org/TR/FileAPI/
         text: file api; url:
         text: createobjecturl; url: #dfn-createObjectURL
         text: revokeobjecturl; url: #dfn-revokeObjectURL
+spec: cookies; urlPrefix: https://httpwg.org/http-extensions/draft-ietf-httpbis-rfc6265bis.html
+    type: dfn
+        text: samesite; url:#name-the-samesite-attribute-2
 </pre>
 
 <pre class=biblio>
@@ -294,7 +298,30 @@ When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |ty
 
 <h4 id="shared-worker">[=Shared Workers=]</h4>
 
-TBD
+Modify [=Shared Workers=] to define the following:
+
+<pre class="idl">
+enum SameSiteCookiesType { "all", "none" };
+
+dictionary SharedWorkerOptions : WorkerOptions {
+  SameSiteCookiesType sameSiteCookies;
+};
+</pre>
+
+Modify [=new SharedWorker=] to accept {{SharedWorkerOptions}} instead of {{WorkerOptions}}.
+
+Note:
+The {{SameSiteCookiesType}} is used to influence which cookies are sent or read during [=fetch=] based on the [=SameSite=] cookie attribute.
+{{SameSiteCookiesType/all}} is only available in [=first-party-site context=] and permits [=SameSite=] "None", "Lax", and "Strict" cookies to be included (if not blocked for some other reason).
+{{SameSiteCookiesType/none}} is only available in any context and permits only [=SameSite=] "None" cookies to be included (if not blocked for some other reason).
+
+Issue(21): Clarify SharedWorker usage of {{SharedWorkerOptions/sameSiteCookies}} in more detail.
+
+When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, {{USVString}} |scriptURL|, and {{DOMString}} or {{SharedWorkerOptions}} |options|, the <dfn export method for=StorageAccessHandle><code>SharedWorker(scriptURL, options)</code></dfn> method must run these steps:
+
+1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/SharedWorker}} is `false`:
+    1. Throw an "{{InvalidStateError}}" {{DOMException}}.
+1. Return the invocation of [=new SharedWorker=] with |scriptURL| and |options|.
 
 <h2 id="privacy">Security & Privacy considerations</h2>
 
