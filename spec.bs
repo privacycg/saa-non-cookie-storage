@@ -308,7 +308,14 @@ dictionary SharedWorkerOptions : WorkerOptions {
 };
 </pre>
 
+The default {{SharedWorkerOptions/sameSiteCookies}} is {{SameSiteCookiesType/all}} in [=first-party-site context=] and {{SameSiteCookiesType/none}} otherwise.
+
 Modify [=new SharedWorker=] to accept {{SharedWorkerOptions}} instead of {{WorkerOptions}}.
+
+Modify [=new SharedWorker=] to add a new step below step 1 as follows:
+
+2. If |options|.{{SharedWorkerOptions/sameSiteCookies}} is {{SameSiteCookiesType/all}} and {{Window}}'s [=associated document=] is not [=first-party-site context=], then:
+    1. Throw an "{{InvalidStateError}}" {{DOMException}}.
 
 Note:
 The {{SameSiteCookiesType}} is used to influence which cookies are sent or read during [=fetch=] based on the [=SameSite=] cookie attribute.
