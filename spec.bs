@@ -155,6 +155,8 @@ partial interface Document {
 };
 </pre>
 
+A {{StorageAccessHandle}} object has an associated {{StorageAccessTypes}} <dfn for=StorageAccessHandle>types</dfn>.
+
 When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>hasUnpartitionedCookieAccess()</code></dfn> method must run these steps:
 
 1. Return the invocation of {{Document/hasStorageAccess()}} on |doc|.
@@ -175,7 +177,8 @@ When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>re
 1. If |accessPromise| [=/rejects=] with `reason` |r|:
     1. [=/Reject=] |p| with |r|.
 1. Else:
-    1. Let |handle| be a new object of type {{StorageAccessHandle}} with |types|.
+    1. Let |handle| be a new object of type {{StorageAccessHandle}}.
+    1. Set |handle|'s [=StorageAccessHandle/types=] to |types|.
     1. [=/Resolve=] |p| with |handle|.
 1. Return |p|.
 
