@@ -328,7 +328,6 @@ Modify [=Processing Model=] to add a new step below step 10.4 as follows:
 
 5. Set <var ignore='monkeypatch'>worker global scope</var>'s |sameSiteCookies| to |options|.{{SharedWorkerOptions/sameSiteCookies}}.
 
-
 Note:
 The {{SameSiteCookiesType}} is used to influence which cookies are sent or read during [=fetch=] based on the [=SameSite=] cookie attribute.
 {{SameSiteCookiesType/all}} is only available in [=first-party-site context=] and permits [=SameSite=] "None", "Lax", and "Strict" cookies to be included (if not blocked for some other reason).
