@@ -194,9 +194,9 @@ Modify {{Document/requestStorageAccess()}} at step 14.1.1.1.1 to read:
 
 For all of the following getters and methods, consider the |docForSAA| to be |doc| with the following modifications:
 
-1. No existing storage mechanism caches on |doc| will be available on |docForSAA|.
-1. Any storage mechanism caches made on |docForSAA| will not be added to |doc|.
-1. When attempting to [=obtain a storage key=] the returned key will use [[STORAGE-PARTITIONING#relaxing-additional-keying]].
+1. When attempting to [=obtain a storage key=] the returned key will use [[STORAGE-PARTITIONING#relaxing-additional-keying]] if the tuple does not simply contain an [=/origin=].
+
+Issue(19): Clarify client-side storage mechanism changes in more detail.
 
 <h4 id="dom-storage">[=Web storage=]</h4>
 
