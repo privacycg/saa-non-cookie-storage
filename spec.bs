@@ -311,7 +311,7 @@ dictionary SharedWorkerOptions : WorkerOptions {
 
 The default {{SharedWorkerOptions/sameSiteCookies}} is {{SameSiteCookiesType/all}} in [=first-party-site context=] and {{SameSiteCookiesType/none}} otherwise.
 
-Modify {{SharedWorkerGlobalScope}} to have an associated {{SameSiteCookiesType}} |sameSiteCookies|.
+Modify {{SharedWorkerGlobalScope}} to have an associated {{SameSiteCookiesType}} <dfn export for=SharedWorkerGlobalScope>sameSiteCookies</dfn>.
 
 Modify [=new SharedWorker=] to accept {{SharedWorkerOptions}} instead of {{WorkerOptions}}.
 
