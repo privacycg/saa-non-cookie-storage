@@ -211,9 +211,9 @@ Issue(19): Clarify client-side storage mechanism changes in more detail.
 
 <h4 id="dom-storage">[=Web storage=]</h4>
 
-When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, the <dfn export attribute for=StorageAccessHandle><code>sessionStorage</code></dfn> getter must run these steps:
+The <dfn export attribute for=StorageAccessHandle><code>sessionStorage</code></dfn> getter steps are:
 
-1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/sessionStorage}} is `false`:
+1. If |this|'s |types|.{{StorageAccessTypes/all}} is `false` and |this|'s |types|.{{StorageAccessTypes/sessionStorage}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
 1. Return the invocation of [=html/sessionStorage=].
 
