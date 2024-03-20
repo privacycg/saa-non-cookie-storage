@@ -217,33 +217,33 @@ The <dfn export attribute for=StorageAccessHandle><code>sessionStorage</code></d
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
 1. Return the invocation of [=html/sessionStorage=].
 
-When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, the <dfn export attribute for=StorageAccessHandle><code>localStorage</code></dfn> getter must run these steps:
+The <dfn export attribute for=StorageAccessHandle><code>localStorage</code></dfn> getter steps are:
 
-1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/localStorage}} is `false`:
+1. If |this|'s |types|.{{StorageAccessTypes/all}} is `false` and |this|'s |types|.{{StorageAccessTypes/localStorage}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
 1. Return the invocation of [=html/localStorage=].
 
 <h4 id="indexed-db">[=Indexed Database API=]</h4>
 
-When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, the <dfn export attribute for=StorageAccessHandle><code>indexedDB</code></dfn> getter must run these steps:
+The <dfn export attribute for=StorageAccessHandle><code>indexedDB</code></dfn> getter steps are:
 
-1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/indexedDB}} is `false`:
+1. If |this|'s |types|.{{StorageAccessTypes/all}} is `false` and |this|'s |types|.{{StorageAccessTypes/indexedDB}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
-1. Return the invocation of {{WindowOrWorkerGlobalScope/indexedDB}} on |doc|.
+1. Return the invocation of {{WindowOrWorkerGlobalScope/indexedDB}}.
 
 <h4 id="web-locks">[=Web Locks API=]</h4>
 
-When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, the <dfn export attribute for=StorageAccessHandle><code>locks</code></dfn> getter must run these steps:
+The <dfn export attribute for=StorageAccessHandle><code>locks</code></dfn> getter steps are:
 
-1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/locks}} is `false`:
+1. If |this|'s |types|.{{StorageAccessTypes/all}} is `false` and |this|'s |types|.{{StorageAccessTypes/locks}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
 1. Return the invocation of [=/locks=] on {{Navigator}}.
 
 <h4 id="cache-storage">[=Cache Storage=]</h4>
 
-When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types|, the <dfn export attribute for=StorageAccessHandle><code>caches</code></dfn> getter must run these steps:
+The <dfn export attribute for=StorageAccessHandle><code>caches</code></dfn> getter steps are:
 
-1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/caches}} is `false`:
+1. If |this|'s |types|.{{StorageAccessTypes/all}} is `false` and |this|'s |types|.{{StorageAccessTypes/caches}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
 1. Return the invocation of [=/caches=].
 
