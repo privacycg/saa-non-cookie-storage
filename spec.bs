@@ -167,7 +167,7 @@ A {{StorageAccessHandle}} object has an associated {{StorageAccessTypes}} <dfn f
 
 When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>hasUnpartitionedCookieAccess()</code></dfn> method must run these steps:
 
-1. Return the invocation of {{Document/hasStorageAccess()}} on |doc|.
+1. Return the result of running {{Document/hasStorageAccess()}} on |doc|.
 
 Note:
 Now that {{Document/requestStorageAccess(types)}} <span class=allow-2119>can</span> be used to request [=unpartitioned data=] with or without specifically requesting cookies, it <span class=allow-2119>must</span> be made clear that {{Document/hasStorageAccess()}} only returns true if [=first-party-site context=] cookies are accessable to the current document.
@@ -215,13 +215,13 @@ The <dfn export attribute for=StorageAccessHandle><code>sessionStorage</code></d
 
 1. If |this|'s |types|.{{StorageAccessTypes/all}} is `false` and |this|'s |types|.{{StorageAccessTypes/sessionStorage}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
-1. Return the invocation of [=html/sessionStorage=].
+1. Return the result of running [=html/sessionStorage=].
 
 The <dfn export attribute for=StorageAccessHandle><code>localStorage</code></dfn> getter steps are:
 
 1. If |this|'s |types|.{{StorageAccessTypes/all}} is `false` and |this|'s |types|.{{StorageAccessTypes/localStorage}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
-1. Return the invocation of [=html/localStorage=].
+1. Return the result of running [=html/localStorage=].
 
 <h4 id="indexed-db">[=Indexed Database API=]</h4>
 
@@ -229,7 +229,7 @@ The <dfn export attribute for=StorageAccessHandle><code>indexedDB</code></dfn> g
 
 1. If |this|'s |types|.{{StorageAccessTypes/all}} is `false` and |this|'s |types|.{{StorageAccessTypes/indexedDB}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
-1. Return the invocation of {{WindowOrWorkerGlobalScope/indexedDB}}.
+1. Return the result of running {{WindowOrWorkerGlobalScope/indexedDB}}.
 
 <h4 id="web-locks">[=Web Locks API=]</h4>
 
@@ -237,7 +237,7 @@ The <dfn export attribute for=StorageAccessHandle><code>locks</code></dfn> gette
 
 1. If |this|'s |types|.{{StorageAccessTypes/all}} is `false` and |this|'s |types|.{{StorageAccessTypes/locks}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
-1. Return the invocation of [=/locks=] on {{Navigator}}.
+1. Return the result of running [=/locks=] on {{Navigator}}.
 
 <h4 id="cache-storage">[=Cache Storage=]</h4>
 
@@ -245,7 +245,7 @@ The <dfn export attribute for=StorageAccessHandle><code>caches</code></dfn> gett
 
 1. If |this|'s |types|.{{StorageAccessTypes/all}} is `false` and |this|'s |types|.{{StorageAccessTypes/caches}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
-1. Return the invocation of [=/caches=].
+1. Return the result of running [=/caches=].
 
 <h4 id="file-system">[=File System=]</h4>
 
@@ -281,13 +281,13 @@ When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |ty
 
 1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/createObjectURL}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
-1. Return the invocation of [=/createObjectURL=] on {{URL}} with |obj|.
+1. Return the result of running [=/createObjectURL=] on {{URL}} with |obj|.
 
 When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |types| and {{DOMString}} |url|, the <dfn export method for=StorageAccessHandle><code>revokeObjectURL(url)</code></dfn> method must run these steps:
 
 1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/revokeObjectURL}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
-1. Return the invocation of [=/revokeObjectURL=] on {{URL}} with |url|.
+1. Return the result of running [=/revokeObjectURL=] on {{URL}} with |url|.
 
 <h4 id="broadcast-channel">[=Broadcast Channel=]</h4>
 
@@ -295,7 +295,7 @@ When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |ty
 
 1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/BroadcastChannel}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
-1. Return the invocation of [=new BroadcastChannel=] with |name|.
+1. Return the result of running [=new BroadcastChannel=] with |name|.
 
 <h4 id="shared-worker">[=Shared Workers=]</h4>
 
@@ -339,7 +339,7 @@ When invoked on {{StorageAccessHandle}} |handle| with {{StorageAccessTypes}} |ty
 
 1. If |types|.{{StorageAccessTypes/all}} is `false` and |types|.{{StorageAccessTypes/SharedWorker}} is `false`:
     1. Throw an "{{InvalidStateError}}" {{DOMException}}.
-1. Return the invocation of [=new SharedWorker=] with |scriptURL| and |options|.
+1. Return the result of running [=new SharedWorker=] with |scriptURL| and |options|.
 
 <h2 id="privacy">Security & Privacy considerations</h2>
 
