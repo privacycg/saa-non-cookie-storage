@@ -167,7 +167,7 @@ A {{StorageAccessHandle}} object has an associated {{StorageAccessTypes}} <dfn f
 
 When invoked on {{Document}} |doc|, the <dfn export method for=Document><code>hasUnpartitionedCookieAccess()</code></dfn> method must run these steps:
 
-1. Return the result of running of {{Document/hasStorageAccess()}} on |doc|.
+1. Return the result of running {{Document/hasStorageAccess()}} on |doc|.
 
 Note:
 Now that {{Document/requestStorageAccess(types)}} <span class=allow-2119>can</span> be used to request [=unpartitioned data=] with or without specifically requesting cookies, it <span class=allow-2119>must</span> be made clear that {{Document/hasStorageAccess()}} only returns true if [=first-party-site context=] cookies are accessable to the current document.
