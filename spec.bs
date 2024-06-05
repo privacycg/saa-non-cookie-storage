@@ -159,7 +159,7 @@ interface StorageAccessHandle {
 
 partial interface Document {
   Promise&lt;boolean> hasUnpartitionedCookieAccess();
-  Promise&lt;StorageAccessHandle> requestStorageAccess(StorageAccessTypes types);
+  Promise&lt;StorageAccessHandle> requestStorageAccess(optional StorageAccessTypes types = {});
 };
 </pre>
 
