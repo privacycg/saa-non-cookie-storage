@@ -164,7 +164,7 @@ partial interface Document {
 };
 </pre>
 
-Issue: Although {{Document/requestStorageAccess(types)}} lists |types| as optional, what we really want is to indicate OneMemberRequired, but this is not yet supported. If {{Document/requestStorageAccess(types)}} is called without |types| you would actually be invoking {{Document/requestStorageAccess()}} which does not return a {{StorageAccessHandle}}.
+Issue: Although {{Document/requestStorageAccess(types)}} lists |types| as optional, what we really want is to indicate [OneMemberRequired](https://github.com/whatwg/webidl/issues/903), but this is not yet supported. If {{Document/requestStorageAccess(types)}} is called without |types| you would actually be invoking {{Document/requestStorageAccess()}} which does not return a {{StorageAccessHandle}}.
 
 A {{StorageAccessHandle}} object has an associated {{StorageAccessTypes}} <dfn for=StorageAccessHandle>types</dfn>.
 
