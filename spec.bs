@@ -160,9 +160,11 @@ interface StorageAccessHandle {
 
 partial interface Document {
   Promise&lt;boolean> hasUnpartitionedCookieAccess();
-  Promise&lt;StorageAccessHandle> requestStorageAccess(StorageAccessTypes types);
+  Promise&lt;StorageAccessHandle> requestStorageAccess(optional StorageAccessTypes types = {});
 };
 </pre>
+
+Issue: Although {{Document/requestStorageAccess(types)}} lists |types| as optional, it should be treated as if [OneMemberRequired](https://github.com/whatwg/webidl/issues/903) (not yet supported) were applied to indicate the dictionary must have at least one non-false argument. If {{Document/requestStorageAccess(types)}} is called without providing |types| you would actually be invoking {{Document/requestStorageAccess()}} which does not return a {{StorageAccessHandle}}.
 
 A {{StorageAccessHandle}} object has an associated {{StorageAccessTypes}} <dfn for=StorageAccessHandle>types</dfn>.
 
