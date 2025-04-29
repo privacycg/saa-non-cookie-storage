@@ -16,8 +16,8 @@ dictionary StorageAccessTypes {
   boolean estimate = false;
   boolean createObjectURL = false;
   boolean revokeObjectURL = false;
-  boolean createBroadcastChannel = false;
-  boolean createSharedWorker = false;
+  boolean BroadcastChannel = false;
+  boolean SharedWorker = false;
 };
 
 enum SameSiteCookiesType { "all", "none" };
@@ -36,8 +36,8 @@ interface StorageAccessHandle {
   Promise<StorageEstimate> estimate();
   DOMString createObjectURL((Blob or MediaSource) obj);
   undefined revokeObjectURL(DOMString url);
-  BroadcastChannel createBroadcastChannel(DOMString name);
-  SharedWorker createSharedWorker(USVString scriptURL, optional (DOMString or SharedWorkerOptions) options = {});
+  BroadcastChannel BroadcastChannel(DOMString name);
+  SharedWorker SharedWorker(USVString scriptURL, optional (DOMString or SharedWorkerOptions) options = {});
 };
 
 interface SharedWorker : EventTarget {
