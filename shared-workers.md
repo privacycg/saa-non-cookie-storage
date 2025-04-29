@@ -68,16 +68,16 @@ new SharedWorker("shared_worker.js", {sameSiteCookies: 'all'});
 let handle = await document.requestStorageAccess({all: true});
 
 // This worker has first-party storage acccess but lacks strict and lax cookies. It would reference the same worker as `sharedWorker3`.
-const sharedWorker6 = handle.SharedWorker("shared_worker.js");
+const sharedWorker6 = handle.createSharedWorker("shared_worker.js");
 
 // This would reference the same worker as `sharedWorker3`.
-const sharedWorker7 = handle.SharedWorker("shared_worker.js", {sameSiteCookies: 'none'});
+const sharedWorker7 = handle.createSharedWorker("shared_worker.js", {sameSiteCookies: 'none'});
 
 // This would throw a DOM security exception.
-handle.SharedWorker("shared_worker.js", {sameSiteCookies: 'all'});
+handle.createSharedWorker("shared_worker.js", {sameSiteCookies: 'all'});
 ```
 
-If the argument `{all: true}` is provided all available storage/communication mechanisms will be prepared and attached to the handle. Otherwise, a site could request just specific mechanisms like shared workers with `{SharedWorker: true}`. This flexibility is provided to ensure developers can avoid any performance impact from loading unused storage/communication mechanisms.
+If the argument `{all: true}` is provided all available storage/communication mechanisms will be prepared and attached to the handle. Otherwise, a site could request just specific mechanisms like shared workers with `{createSharedWorker: true}`. This flexibility is provided to ensure developers can avoid any performance impact from loading unused storage/communication mechanisms.
 
 ## Prompting the User
 
