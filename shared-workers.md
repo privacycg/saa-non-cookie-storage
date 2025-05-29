@@ -40,7 +40,7 @@ By prompting the user for permission via `document.requestStorageAccess({SharedW
 
 ## [Transfering an ArrayBuffer](https://groups.google.com/a/chromium.org/g/blink-dev/c/inRN8tI49O0/m/Q_TE0cw4AAAJ)
 
-Similar to the above case, but perhapse the customer service chat has a video option that can start embedded in the page but could also be popped out into its own window.
+Similar to the above case, but perhaps the customer service chat has a video option that can start embedded in the page but could also be popped out into its own window.
 This could be implemented by putting a session ID into the query params of the opened window.
 However, to allow a more natural transition without audio/video glitches it would be easier to have a SharedWorker seemlessly transition the call over.
 This proposal allows that to work after a storage access permission grant.
