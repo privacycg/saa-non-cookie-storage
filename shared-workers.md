@@ -29,7 +29,7 @@ There has been increasing [developer](https://github.com/GoogleChromeLabs/privac
 
 A website, chat.example, offers a way to maintain active chat session between any sites the embed it using SharedWorkers.
 Before storage partitioning this was possible, but after storage partitioning when chat.example is embedded on different sites and instantiates a SharedWorker it would no longer be shared.
-By prompting the user for permission via `document.requestStorageAccess({SharedWorker: true})` and then instanciating the SharedWorker via the returned handle the worker can be shared across partitioned third-party contexts.
+By prompting the user for permission via `document.requestStorageAccess({SharedWorker: true})` and then instantiating the SharedWorker via the returned handle the worker can be shared across partitioned third-party contexts.
 
 ## [Transfering an ArrayBuffer](https://groups.google.com/a/chromium.org/g/blink-dev/c/inRN8tI49O0/m/Q_TE0cw4AAAJ)
 
