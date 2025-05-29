@@ -45,7 +45,8 @@ This could be implemented by putting a session ID into the query params of the o
 However, to allow a more natural transition without audio/video glitches it would be easier to have a SharedWorker seamlessly transition the call over.
 This proposal allows that to work after a storage access permission grant.
 
-A website, company-videochat.example, wants to track and resume a video call in a first party context using SharedWorkers. `window.postMessage(...)` won't work as it would require inefficient cloning of significant data.
+A website, company-videochat.example, wants to track and resume a video call in a first party context using SharedWorkers.
+`window.postMessage(...)` won't work as it would require inefficient cloning of significant data (you cannot send ArrayBuffers between window proxies without serializing them, but you can send them to/from SharedWorkers without serializing them).
 Before storage partitioning this was possible, but after storage partitioning when company-videochat.example is embedded in a third-party context (company-site1.example or company-site2.example) and instantiates a SharedWorker it would no longer be shared with workers instantiated in a first-party context.
 By prompting the user for permission via `document.requestStorageAccess({SharedWorker: true})` and then instantiating the SharedWorker via the returned handle the worker can be shared from a partitioned third-party context to a first-party context if the first-party worker is instantiated with the `sameSiteCookies: 'none'` option.
 The worker shared this way won't gain access to `SameSite=Strict` cookies, which is important as `document.requestStorageAccess(...)` doesn't grant this either.
