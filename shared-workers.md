@@ -35,7 +35,7 @@ By prompting the user for permission via `document.requestStorageAccess({SharedW
 
 A website, worker.example, wants to track and resume work in a first party context using SharedWorkers. `window.postMessage(...)` won't work as it would require inefficient cloning of significant data.
 Before storage partitioning this was possible, but after storage partitioning the when worker.example is embedded in a third-party context and instanciates a SharedWorker it would no longer be shared with workers instanciated in a first-party context.
-By prompting the user for permission via `document.requestStorageAccess({SharedWorker: true})` and then instanciating the SharedWorker via the returned handle the worker can be shared from a partitioned third-party context to a first-party context if the first-party worker is instanciated with the `sameSiteCookies: 'none'` option.
+By prompting the user for permission via `document.requestStorageAccess({SharedWorker: true})` and then instantiating the SharedWorker via the returned handle the worker can be shared from a partitioned third-party context to a first-party context if the first-party worker is instantiated with the `sameSiteCookies: 'none'` option.
 The worker shared this way won't gain access to `SameSite=Strict` cookies, which is important as `document.requestStorageAccess(...)` doesn't grant this either.
 
 # Proposed Solution
