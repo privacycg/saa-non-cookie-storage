@@ -34,7 +34,7 @@ By prompting the user for permission via `document.requestStorageAccess({SharedW
 ## [Transfering an ArrayBuffer](https://groups.google.com/a/chromium.org/g/blink-dev/c/inRN8tI49O0/m/Q_TE0cw4AAAJ)
 
 A website, worker.example, wants to track and resume work in a first party context using SharedWorkers. `window.postMessage(...)` won't work as it would require inefficient cloning of significant data.
-Before storage partitioning this was possible, but after storage partitioning the when worker.example is embedded in a third-party context and instanciates a SharedWorker it would no longer be shared with workers instanciated in a first-party context.
+Before storage partitioning this was possible, but after storage partitioning when worker.example is embedded in a third-party context and instantiates a SharedWorker it would no longer be shared with workers instantiated in a first-party context.
 By prompting the user for permission via `document.requestStorageAccess({SharedWorker: true})` and then instantiating the SharedWorker via the returned handle the worker can be shared from a partitioned third-party context to a first-party context if the first-party worker is instantiated with the `sameSiteCookies: 'none'` option.
 The worker shared this way won't gain access to `SameSite=Strict` cookies, which is important as `document.requestStorageAccess(...)` doesn't grant this either.
 
