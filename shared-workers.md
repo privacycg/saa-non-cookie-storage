@@ -34,7 +34,7 @@ This could be implemented by putting a session ID into a cookie, and that would 
 However, it's more natural and common for sites to use a SharedWorker to manage the chat session.
 This proposal allows that to work after the same use permission grant.
 
-A website, company-chat.example, offers a way to maintain active chat session between any sites the embed it using SharedWorkers.
+To implement this, the company embeds a helper site, e.g. company-chat.example, into all of its branded sites, and company-chat.example uses a SharedWorker to communicate between its multiple embedded instances.
 Before storage partitioning this was possible, but after storage partitioning when company-chat.example is embedded on different sites (company-site1.example or company-site2.example) and instantiates a SharedWorker it would no longer be shared.
 By prompting the user for permission via `document.requestStorageAccess({SharedWorker: true})` and then instantiating the SharedWorker via the returned handle the worker can be shared across partitioned third-party contexts.
 
