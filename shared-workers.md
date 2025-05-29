@@ -28,7 +28,7 @@ There has been increasing [developer](https://github.com/GoogleChromeLabs/privac
 ## [Maintaining a Session](https://github.com/GoogleChromeLabs/privacy-sandbox-dev-support/issues/124)
 
 Some websites allow users to chat with the site's customer service.
-For example, the US internet provider Comcast splits parts of its services across comcast.com, xfinity.com, and more.
+For example, the US internet provider Comcast splits parts of its services across business.comcast.com, xfinity.com, and more.
 In some cases, pieces of a user's natural journey while interacting with the customer service agent lead them to different but associated sites.
 This could be implemented by putting a session ID into a cookie, and that would continue to work while cookies are partitioned if the user grants storage access.
 However, it's more natural and common for sites to use a SharedWorker to manage the chat session.
