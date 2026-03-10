@@ -17,6 +17,7 @@ Complain About: accidental-2119 true
 
 <pre class=link-defaults>
 spec:html; type:dfn; for:site; text:same site
+spec:html; type:dictionary; text:SharedWorkerOptions
 spec:url; type:interface; text:URL
 </pre>
 
@@ -307,7 +308,7 @@ Modify [=Shared Workers=] to define the following:
 <pre class="idl">
 enum SameSiteCookiesType { "all", "none" };
 
-dictionary SharedWorkerOptions : WorkerOptions {
+partial dictionary SharedWorkerOptions {
   SameSiteCookiesType sameSiteCookies;
 };
 </pre>
@@ -315,8 +316,6 @@ dictionary SharedWorkerOptions : WorkerOptions {
 The default {{SharedWorkerOptions/sameSiteCookies}} is {{SameSiteCookiesType/all}} in [=first-party-site context=] and {{SameSiteCookiesType/none}} otherwise.
 
 Modify {{SharedWorkerGlobalScope}} to have an associated {{SameSiteCookiesType}} <dfn export for=SharedWorkerGlobalScope>sameSiteCookies</dfn>.
-
-Modify [=new SharedWorker=] to accept {{SharedWorkerOptions}} instead of {{WorkerOptions}}.
 
 Modify [=new SharedWorker=] to add a new step below step 1 as follows:
 
